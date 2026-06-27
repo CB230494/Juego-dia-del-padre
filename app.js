@@ -1,29 +1,25 @@
 const app = document.getElementById("app");
 
 const teamsCatalog = [
-  "Holanda 🇳🇱",
-  "Brasil 🇧🇷",
-  "Argentina 🇦🇷",
-  "España 🇪🇸",
-  "Francia 🇫🇷",
-  "Alemania 🇩🇪",
-  "Portugal 🇵🇹",
-  "Costa Rica 🇨🇷"
+  "México 🇲🇽", "Sudáfrica 🇿🇦", "Corea del Sur 🇰🇷", "Chequia 🇨🇿",
+  "Canadá 🇨🇦", "Bosnia y Herzegovina 🇧🇦", "Qatar 🇶🇦", "Suiza 🇨🇭",
+  "Brasil 🇧🇷", "Marruecos 🇲🇦", "Haití 🇭🇹", "Escocia 🏴",
+  "Estados Unidos 🇺🇸", "Paraguay 🇵🇾", "Australia 🇦🇺", "Turquía 🇹🇷",
+  "Alemania 🇩🇪", "Curazao 🇨🇼", "Costa de Marfil 🇨🇮", "Ecuador 🇪🇨",
+  "Holanda 🇳🇱", "Japón 🇯🇵", "Suecia 🇸🇪", "Túnez 🇹🇳",
+  "Bélgica 🇧🇪", "Egipto 🇪🇬", "Irán 🇮🇷", "Nueva Zelanda 🇳🇿",
+  "España 🇪🇸", "Cabo Verde 🇨🇻", "Arabia Saudita 🇸🇦", "Uruguay 🇺🇾",
+  "Francia 🇫🇷", "Senegal 🇸🇳", "Irak 🇮🇶", "Noruega 🇳🇴",
+  "Argentina 🇦🇷", "Argelia 🇩🇿", "Austria 🇦🇹", "Jordania 🇯🇴",
+  "Portugal 🇵🇹", "República Democrática del Congo 🇨🇩", "Uzbekistán 🇺🇿", "Colombia 🇨🇴",
+  "Inglaterra 🏴", "Croacia 🇭🇷", "Ghana 🇬🇭", "Panamá 🇵🇦"
 ];
 
+let usedQuestions = [];
+
 let game = {
-  teamA: {
-    name: "Holanda 🇳🇱",
-    players: [],
-    score: 0,
-    goals: 0
-  },
-  teamB: {
-    name: "Brasil 🇧🇷",
-    players: [],
-    score: 0,
-    goals: 0
-  },
+  teamA: { name: "Holanda 🇳🇱", players: [], score: 0, goals: 0 },
+  teamB: { name: "Brasil 🇧🇷", players: [], score: 0, goals: 0 },
   turnTeam: "A",
   attackIndexA: 0,
   attackIndexB: 0,
@@ -40,79 +36,97 @@ let game = {
 const familyQuestions = [
   "¿Cuál es la comida favorita de tu esposa?",
   "¿Cuál es el color favorito de tu esposa?",
-  "¿Qué le molesta más a tu esposa?",
-  "¿Cuál es el sueño más grande de tu esposa?",
-  "¿Cuál es la película favorita de tu esposa?",
+  "¿Qué bebida le gusta más a tu esposa?",
+  "¿Qué comida no le gusta a tu esposa?",
   "¿Qué regalo le gustaría recibir a tu esposa?",
+  "¿Cuál es la película favorita de tu esposa?",
+  "¿Cuál es la canción favorita de tu esposa?",
+  "¿Qué le molesta más a tu esposa?",
+  "¿Qué la pone feliz rápidamente?",
+  "¿Cuál es el sueño más grande de tu esposa?",
+  "¿Cuál es el lugar favorito de tu esposa?",
+  "¿Qué es lo primero que hace tu esposa al despertar?",
+  "¿Qué frase repite mucho tu esposa?",
+  "¿Qué color de ropa usa más tu esposa?",
+  "¿Qué postre le gusta más a tu esposa?",
+  "¿Qué fecha especial nunca debes olvidar?",
+  "¿Cuál fue el primer regalo que le diste?",
+  "¿Qué es lo que más admira tu esposa de ti?",
+  "¿Qué le da más tranquilidad a tu esposa?",
+  "¿Qué actividad disfruta hacer en familia?",
   "¿Cuál es la comida favorita de tu hijo o hija?",
+  "¿Cuál es el color favorito de tu hijo o hija?",
   "¿Quién es el mejor amigo de tu hijo o hija?",
-  "¿Cuál es el pasatiempo favorito de tu hijo o hija?",
+  "¿Cuál es el videojuego favorito de tu hijo o hija?",
+  "¿Cuál es la materia favorita de tu hijo o hija?",
+  "¿Qué materia le cuesta más?",
   "¿Qué le da miedo a tu hijo o hija?",
-  "¿Qué materia le gusta más a tu hijo o hija?",
-  "¿Qué quiere ser tu hijo o hija cuando sea grande?"
+  "¿Qué deporte le gusta más?",
+  "¿Qué quiere ser cuando sea grande?",
+  "¿Qué juguete u objeto cuida más?",
+  "¿Qué comida nunca comería?",
+  "¿Qué canción le gusta mucho?",
+  "¿Qué película o serie le gusta ver?",
+  "¿Qué lo hace reír mucho?",
+  "¿Qué lo pone triste?",
+  "¿Qué le gusta hacer contigo?",
+  "¿Qué le gusta hacer con mamá?",
+  "¿Qué lugar le gusta visitar?",
+  "¿Cuál es su animal favorito?",
+  "¿Cuál fue su último logro importante?"
 ];
 
 const triviaQuestions = [
-  {
-    category: "Vehículos 🚗",
-    q: "¿Qué marca fabrica el Corolla?",
-    options: ["Nissan", "Toyota", "Mazda", "Kia"],
-    answer: 1
-  },
-  {
-    category: "Vehículos 🚗",
-    q: "¿Qué marca fabrica el Civic?",
-    options: ["Honda", "Toyota", "Ford", "Hyundai"],
-    answer: 0
-  },
-  {
-    category: "Vehículos 🚗",
-    q: "¿Qué marca fabrica el Hilux?",
-    options: ["Ford", "Toyota", "Chevrolet", "Nissan"],
-    answer: 1
-  },
-  {
-    category: "Vehículos 🚗",
-    q: "¿Qué marca fabrica el Mustang?",
-    options: ["Chevrolet", "Dodge", "Ford", "BMW"],
-    answer: 2
-  },
-  {
-    category: "Herramientas 🔧",
-    q: "¿Para qué sirve un nivel?",
-    options: ["Cortar madera", "Medir corriente", "Verificar si algo está recto", "Pintar paredes"],
-    answer: 2
-  },
-  {
-    category: "Herramientas 🔧",
-    q: "¿Qué herramienta se usa para clavar?",
-    options: ["Martillo", "Alicate", "Taladro", "Nivel"],
-    answer: 0
-  },
-  {
-    category: "Herramientas 🔧",
-    q: "¿Qué herramienta mide distancias?",
-    options: ["Serrucho", "Cinta métrica", "Llave inglesa", "Escuadra"],
-    answer: 1
-  },
-  {
-    category: "Fútbol ⚽",
-    q: "¿Cuántos jugadores tiene un equipo en cancha?",
-    options: ["9", "10", "11", "12"],
-    answer: 2
-  },
-  {
-    category: "Fútbol ⚽",
-    q: "¿Qué tarjeta expulsa a un jugador?",
-    options: ["Amarilla", "Roja", "Azul", "Verde"],
-    answer: 1
-  },
-  {
-    category: "Fútbol ⚽",
-    q: "¿Cuánto dura un partido oficial sin tiempo extra?",
-    options: ["60 minutos", "80 minutos", "90 minutos", "100 minutos"],
-    answer: 2
-  }
+  { category:"Vehículos 🚗", q:"¿Qué marca fabrica el Corolla?", options:["Nissan","Toyota","Mazda","Kia"], answer:1 },
+  { category:"Vehículos 🚗", q:"¿Qué marca fabrica el Civic?", options:["Honda","Toyota","Ford","Hyundai"], answer:0 },
+  { category:"Vehículos 🚗", q:"¿Qué marca fabrica el Hilux?", options:["Ford","Toyota","Chevrolet","Nissan"], answer:1 },
+  { category:"Vehículos 🚗", q:"¿Qué marca fabrica el Mustang?", options:["Chevrolet","Dodge","Ford","BMW"], answer:2 },
+  { category:"Vehículos 🚗", q:"¿Qué marca fabrica el Sentra?", options:["Nissan","Toyota","Honda","Suzuki"], answer:0 },
+  { category:"Vehículos 🚗", q:"¿Qué marca fabrica el Sportage?", options:["Kia","Mazda","Ford","Toyota"], answer:0 },
+  { category:"Vehículos 🚗", q:"¿Qué marca fabrica el Tucson?", options:["Hyundai","Honda","Nissan","Volkswagen"], answer:0 },
+  { category:"Vehículos 🚗", q:"¿Qué marca fabrica el Ranger?", options:["Ford","Toyota","Mitsubishi","Kia"], answer:0 },
+  { category:"Vehículos 🚗", q:"¿Qué marca fabrica el L200?", options:["Mitsubishi","Nissan","Chevrolet","Honda"], answer:0 },
+  { category:"Vehículos 🚗", q:"¿Qué marca fabrica el Amarok?", options:["Volkswagen","Toyota","Ford","Mazda"], answer:0 },
+  { category:"Vehículos 🚗", q:"¿Qué marca fabrica el CX-5?", options:["Mazda","Hyundai","Kia","Nissan"], answer:0 },
+  { category:"Vehículos 🚗", q:"¿Qué marca fabrica el Prado?", options:["Toyota","Ford","Jeep","Honda"], answer:0 },
+
+  { category:"Herramientas 🔧", q:"¿Para qué sirve un nivel?", options:["Cortar madera","Medir corriente","Verificar si algo está nivelado","Pintar paredes"], answer:2 },
+  { category:"Herramientas 🔧", q:"¿Qué herramienta se usa para clavar?", options:["Martillo","Alicate","Taladro","Nivel"], answer:0 },
+  { category:"Herramientas 🔧", q:"¿Qué herramienta mide distancias?", options:["Serrucho","Cinta métrica","Llave inglesa","Escuadra"], answer:1 },
+  { category:"Herramientas 🔧", q:"¿Qué herramienta sirve para cortar madera manualmente?", options:["Serrucho","Alicate","Llave Allen","Nivel"], answer:0 },
+  { category:"Herramientas 🔧", q:"¿Qué herramienta se usa para apretar tornillos?", options:["Destornillador","Martillo","Brocha","Cincel"], answer:0 },
+  { category:"Herramientas 🔧", q:"¿Qué herramienta sirve para hacer agujeros?", options:["Taladro","Llave inglesa","Cinta métrica","Nivel"], answer:0 },
+  { category:"Herramientas 🔧", q:"¿Qué herramienta sirve para sujetar o cortar alambre?", options:["Alicate","Rodillo","Serrucho","Escuadra"], answer:0 },
+  { category:"Herramientas 🔧", q:"¿Qué llave se ajusta a distintos tamaños?", options:["Llave ajustable","Llave fija","Llave Allen","Llave de paso"], answer:0 },
+  { category:"Herramientas 🔧", q:"¿Qué se usa para pintar una pared grande?", options:["Rodillo","Cincel","Taladro","Nivel"], answer:0 },
+  { category:"Herramientas 🔧", q:"¿Qué herramienta ayuda a marcar ángulos rectos?", options:["Escuadra","Martillo","Alicate","Broca"], answer:0 },
+
+  { category:"Fútbol ⚽", q:"¿Cuántos jugadores tiene un equipo en cancha?", options:["9","10","11","12"], answer:2 },
+  { category:"Fútbol ⚽", q:"¿Qué tarjeta expulsa a un jugador?", options:["Amarilla","Roja","Azul","Verde"], answer:1 },
+  { category:"Fútbol ⚽", q:"¿Cuánto dura un partido oficial sin tiempo extra?", options:["60 minutos","80 minutos","90 minutos","100 minutos"], answer:2 },
+  { category:"Fútbol ⚽", q:"¿Cómo se llama la falta dentro del área que puede terminar en tiro directo al arco?", options:["Córner","Penal","Saque lateral","Tiro libre indirecto"], answer:1 },
+  { category:"Fútbol ⚽", q:"¿Qué jugador puede usar las manos dentro de su área?", options:["Defensa","Delantero","Portero","Capitán"], answer:2 },
+  { category:"Fútbol ⚽", q:"¿Cuántos tiempos tiene un partido normal?", options:["1","2","3","4"], answer:1 },
+  { category:"Fútbol ⚽", q:"¿Qué ocurre cuando el balón sale por la línea de fondo tocado por un defensor?", options:["Córner","Saque de banda","Penal","Gol automático"], answer:0 },
+  { category:"Fútbol ⚽", q:"¿Qué país ganó el Mundial 2022?", options:["Francia","Brasil","Argentina","Croacia"], answer:2 },
+  { category:"Fútbol ⚽", q:"¿Qué selección es conocida como La Canarinha?", options:["Brasil","España","Holanda","Alemania"], answer:0 },
+  { category:"Fútbol ⚽", q:"¿Qué significa VAR?", options:["Video Assistant Referee","Valor Alto Reglamentario","Vista Arbitral Rápida","Verificación Automática Real"], answer:0 },
+
+  { category:"Biblia 📖", q:"¿Quién construyó el arca?", options:["Moisés","Noé","Abraham","David"], answer:1 },
+  { category:"Biblia 📖", q:"¿Quién fue tragado por un gran pez?", options:["Jonás","Pedro","Pablo","Isaías"], answer:0 },
+  { category:"Biblia 📖", q:"¿Quién recibió los Diez Mandamientos?", options:["Moisés","José","Salomón","Elías"], answer:0 },
+  { category:"Biblia 📖", q:"¿Quién venció a Goliat?", options:["David","Sansón","Josué","Daniel"], answer:0 },
+  { category:"Biblia 📖", q:"¿Dónde nació Jesús?", options:["Nazaret","Jerusalén","Belén","Galilea"], answer:2 },
+  { category:"Biblia 📖", q:"¿Quién negó a Jesús tres veces?", options:["Pedro","Juan","Tomás","Judas"], answer:0 },
+  { category:"Biblia 📖", q:"¿Cuál fue el primer milagro de Jesús según el Evangelio de Juan?", options:["Multiplicar panes","Caminar sobre el agua","Convertir agua en vino","Sanar a un ciego"], answer:2 },
+  { category:"Biblia 📖", q:"¿Quién fue conocido por su gran fuerza?", options:["Sansón","Samuel","Jacob","Isaac"], answer:0 },
+  { category:"Biblia 📖", q:"¿Quién fue echado al foso de los leones?", options:["Daniel","David","José","Moisés"], answer:0 },
+  { category:"Biblia 📖", q:"¿Cuántos discípulos principales tuvo Jesús?", options:["10","11","12","13"], answer:2 },
+  { category:"Biblia 📖", q:"¿Quién traicionó a Jesús?", options:["Pedro","Judas","Mateo","Andrés"], answer:1 },
+  { category:"Biblia 📖", q:"¿Qué libro inicia la Biblia?", options:["Éxodo","Génesis","Mateo","Salmos"], answer:1 },
+  { category:"Biblia 📖", q:"¿Qué rey pidió sabiduría a Dios?", options:["Saúl","David","Salomón","Herodes"], answer:2 },
+  { category:"Biblia 📖", q:"¿Quién fue la madre de Jesús?", options:["Marta","María","Elisabet","Rut"], answer:1 },
+  { category:"Biblia 📖", q:"¿Qué mar fue abierto para que pasara el pueblo de Israel?", options:["Mar Rojo","Mar Muerto","Mar Mediterráneo","Mar de Galilea"], answer:0 }
 ];
 
 function renderSetup() {
@@ -134,7 +148,7 @@ function renderSetup() {
             <input id="playerAName" placeholder="Ejemplo: Carlos" />
 
             <button class="btn" onclick="addPlayer('A')">Agregar papá</button>
-            <div id="listA" class="players-list"></div>
+            <div id="listA"></div>
           </div>
 
           <div class="box">
@@ -148,14 +162,14 @@ function renderSetup() {
             <input id="playerBName" placeholder="Ejemplo: Roberto" />
 
             <button class="btn" onclick="addPlayer('B')">Agregar papá</button>
-            <div id="listB" class="players-list"></div>
+            <div id="listB"></div>
           </div>
         </div>
 
         <button class="btn btn-yellow" onclick="startGame()">INICIAR PARTIDO</button>
 
         <p class="small">
-          Reglas: 3 respuestas malas = tarjeta roja. El papá pierde puntos, no juega un turno y luego regresa.
+          Reglas: 3 respuestas malas = tarjeta roja. El papá pierde 30 puntos, no juega un turno y luego regresa.
         </p>
       </div>
     </div>
@@ -177,11 +191,8 @@ function addPlayer(team) {
     expelledTurns: 0
   };
 
-  if (team === "A") {
-    game.teamA.players.push(player);
-  } else {
-    game.teamB.players.push(player);
-  }
+  if (team === "A") game.teamA.players.push(player);
+  else game.teamB.players.push(player);
 
   input.value = "";
   updateLists();
@@ -216,10 +227,6 @@ function startGame() {
 
 function getTeam(letter) {
   return letter === "A" ? game.teamA : game.teamB;
-}
-
-function getOtherTeam(letter) {
-  return letter === "A" ? game.teamB : game.teamA;
 }
 
 function getNextPlayer(teamLetter, role) {
@@ -258,7 +265,6 @@ function nextTurn() {
 
   game.attacker = getNextPlayer(attackingTeam, "attack");
   game.defender = getNextPlayer(defendingTeam, "defense");
-
   game.currentQuestion = getRandomQuestion();
   game.message = "";
 
@@ -266,20 +272,29 @@ function nextTurn() {
 }
 
 function getRandomQuestion() {
-  const useFamily = Math.random() < 0.45;
-
-  if (useFamily) {
-    return {
+  const allQuestions = [
+    ...familyQuestions.map(q => ({
       type: "family",
       category: "Familia ❤️",
-      q: familyQuestions[Math.floor(Math.random() * familyQuestions.length)]
-    };
+      q
+    })),
+    ...triviaQuestions.map(q => ({
+      type: "trivia",
+      ...q
+    }))
+  ];
+
+  let available = allQuestions.filter(q => !usedQuestions.includes(q.q));
+
+  if (available.length === 0) {
+    usedQuestions = [];
+    available = allQuestions;
   }
 
-  return {
-    type: "trivia",
-    ...triviaQuestions[Math.floor(Math.random() * triviaQuestions.length)]
-  };
+  const selected = available[Math.floor(Math.random() * available.length)];
+  usedQuestions.push(selected.q);
+
+  return selected;
 }
 
 function renderGame() {
@@ -303,7 +318,8 @@ function renderGame() {
         </div>
       </div>
 
-      <div class="field">
+      <div class="stadium">
+        <div class="crowd"></div>
         <div class="midline"></div>
         <div class="circle"></div>
         <div class="goal left"></div>
@@ -315,13 +331,13 @@ function renderGame() {
 
       <div class="main-game">
         <div class="turn">
-          ${game.phase === "attack" 
-            ? `Turno de ataque: ${game.attacker.name}` 
-            : `Turno de atajada: ${game.defender.name}`}
+          ${game.phase === "attack"
+            ? `⚽ Ataque: ${game.attacker.name}`
+            : `🧤 Atajada: ${game.defender.name}`}
         </div>
 
-        <div class="small" style="text-align:center;">
-          Categoría: ${game.currentQuestion.category}
+        <div style="text-align:center;">
+          <span class="badge">${game.currentQuestion.category}</span>
         </div>
 
         <div class="question">
@@ -385,7 +401,6 @@ function answer(isCorrect) {
   } else {
     activePlayer.mistakes++;
     game.message = "❌ Respuesta incorrecta";
-
     checkCards(activePlayer, activeTeam);
   }
 
@@ -393,7 +408,6 @@ function answer(isCorrect) {
     if (isCorrect) {
       game.phase = "defense";
       game.currentQuestion = getRandomQuestion();
-      animateShotStart();
       renderGame();
       return;
     } else {
@@ -407,18 +421,13 @@ function answer(isCorrect) {
       activePlayer.points += 15;
       activeTeam.score += 15;
       game.message = "🧤 ¡Atajadón! +15 puntos";
-      animateSave();
+      renderGame();
+      return;
     } else {
       goal();
       return;
     }
-
-    setTimeout(() => {
-      switchTurn();
-    }, 1200);
   }
-
-  renderGame();
 }
 
 function checkCards(player, team) {
@@ -431,7 +440,6 @@ function checkCards(player, team) {
     player.expelledTurns = 1;
     player.points -= 30;
     team.score -= 30;
-
     game.message += ` 🟥 ${player.name} fue expulsado temporalmente. Pierde 30 puntos y no juega un turno.`;
   }
 }
@@ -445,12 +453,6 @@ function goal() {
   game.attacker.points += 20;
 
   game.message = `⚽ ¡GOOOOOOL de ${game.attacker.name}! +20 puntos`;
-
-  animateGoal();
-
-  setTimeout(() => {
-    switchTurn();
-  }, 1400);
 
   renderGame();
 }
@@ -476,33 +478,6 @@ function renderPlayers(players) {
       ${p.mistakes === 2 ? `<br><span class="yellow-card">🟨 En peligro</span>` : ""}
     </div>
   `).join("");
-}
-
-function animateShotStart() {
-  setTimeout(() => {
-    const ball = document.getElementById("ball");
-    if (ball) ball.style.left = "520px";
-  }, 100);
-}
-
-function animateGoal() {
-  setTimeout(() => {
-    const ball = document.getElementById("ball");
-    if (ball) {
-      ball.style.left = "920px";
-      ball.style.bottom = "125px";
-    }
-  }, 100);
-}
-
-function animateSave() {
-  setTimeout(() => {
-    const keeper = document.getElementById("keeperIcon");
-    const ball = document.getElementById("ball");
-
-    if (keeper) keeper.style.right = "230px";
-    if (ball) ball.style.left = "760px";
-  }, 100);
 }
 
 renderSetup();
