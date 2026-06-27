@@ -1,158 +1,140 @@
 const app = document.getElementById("app");
 
 const teamsCatalog = [
-  { name: "México", flag: "🇲🇽" },
-  { name: "Sudáfrica", flag: "🇿🇦" },
-  { name: "Corea del Sur", flag: "🇰🇷" },
-  { name: "Chequia", flag: "🇨🇿" },
-  { name: "Canadá", flag: "🇨🇦" },
-  { name: "Bosnia y Herzegovina", flag: "🇧🇦" },
-  { name: "Qatar", flag: "🇶🇦" },
-  { name: "Suiza", flag: "🇨🇭" },
-  { name: "Brasil", flag: "🇧🇷" },
-  { name: "Marruecos", flag: "🇲🇦" },
-  { name: "Haití", flag: "🇭🇹" },
-  { name: "Escocia", flag: "🏴" },
-  { name: "Estados Unidos", flag: "🇺🇸" },
-  { name: "Paraguay", flag: "🇵🇾" },
-  { name: "Australia", flag: "🇦🇺" },
-  { name: "Turquía", flag: "🇹🇷" },
-  { name: "Alemania", flag: "🇩🇪" },
-  { name: "Curazao", flag: "🇨🇼" },
-  { name: "Costa de Marfil", flag: "🇨🇮" },
-  { name: "Ecuador", flag: "🇪🇨" },
-  { name: "Holanda", flag: "🇳🇱" },
-  { name: "Japón", flag: "🇯🇵" },
-  { name: "Suecia", flag: "🇸🇪" },
-  { name: "Túnez", flag: "🇹🇳" },
-  { name: "Bélgica", flag: "🇧🇪" },
-  { name: "Egipto", flag: "🇪🇬" },
-  { name: "Irán", flag: "🇮🇷" },
-  { name: "Nueva Zelanda", flag: "🇳🇿" },
-  { name: "España", flag: "🇪🇸" },
-  { name: "Cabo Verde", flag: "🇨🇻" },
-  { name: "Arabia Saudita", flag: "🇸🇦" },
-  { name: "Uruguay", flag: "🇺🇾" },
-  { name: "Francia", flag: "🇫🇷" },
-  { name: "Senegal", flag: "🇸🇳" },
-  { name: "Irak", flag: "🇮🇶" },
-  { name: "Noruega", flag: "🇳🇴" },
-  { name: "Argentina", flag: "🇦🇷" },
-  { name: "Argelia", flag: "🇩🇿" },
-  { name: "Austria", flag: "🇦🇹" },
-  { name: "Jordania", flag: "🇯🇴" },
-  { name: "Portugal", flag: "🇵🇹" },
-  { name: "República Democrática del Congo", flag: "🇨🇩" },
-  { name: "Uzbekistán", flag: "🇺🇿" },
-  { name: "Colombia", flag: "🇨🇴" },
-  { name: "Inglaterra", flag: "🏴" },
-  { name: "Croacia", flag: "🇭🇷" },
-  { name: "Ghana", flag: "🇬🇭" },
-  { name: "Panamá", flag: "🇵🇦" }
+  { name: "México", flag: "🇲🇽", code: "MEX" },
+  { name: "Canadá", flag: "🇨🇦", code: "CAN" },
+  { name: "Estados Unidos", flag: "🇺🇸", code: "USA" },
+  { name: "Brasil", flag: "🇧🇷", code: "BRA" },
+  { name: "Argentina", flag: "🇦🇷", code: "ARG" },
+  { name: "Holanda", flag: "🇳🇱", code: "NED" },
+  { name: "España", flag: "🇪🇸", code: "ESP" },
+  { name: "Francia", flag: "🇫🇷", code: "FRA" },
+  { name: "Alemania", flag: "🇩🇪", code: "GER" },
+  { name: "Portugal", flag: "🇵🇹", code: "POR" },
+  { name: "Inglaterra", flag: "🏴", code: "ENG" },
+  { name: "Colombia", flag: "🇨🇴", code: "COL" },
+  { name: "Uruguay", flag: "🇺🇾", code: "URU" },
+  { name: "Japón", flag: "🇯🇵", code: "JPN" },
+  { name: "Corea del Sur", flag: "🇰🇷", code: "KOR" },
+  { name: "Marruecos", flag: "🇲🇦", code: "MAR" },
+  { name: "Croacia", flag: "🇭🇷", code: "CRO" },
+  { name: "Suiza", flag: "🇨🇭", code: "SUI" },
+  { name: "Bélgica", flag: "🇧🇪", code: "BEL" },
+  { name: "Panamá", flag: "🇵🇦", code: "PAN" }
 ];
 
 let usedQuestions = [];
 
 let game = {
-  teamA: { name: "Holanda", flag: "🇳🇱", players: [], score: 0, goals: 0 },
-  teamB: { name: "Brasil", flag: "🇧🇷", players: [], score: 0, goals: 0 },
+  teamA: {
+    name: "Holanda",
+    flag: "🇳🇱",
+    code: "NED",
+    players: [],
+    goals: 0
+  },
+  teamB: {
+    name: "Brasil",
+    flag: "🇧🇷",
+    code: "BRA",
+    players: [],
+    goals: 0
+  },
   turnTeam: "A",
-  attackIndexA: 0,
-  attackIndexB: 0,
-  defenseIndexA: 0,
-  defenseIndexB: 0,
-  phase: "attack",
-  attacker: null,
-  defender: null,
+  playerIndexA: 0,
+  playerIndexB: 0,
+  currentPlayer: null,
   currentQuestion: null,
   round: 1,
+  maxRounds: 20,
   message: ""
 };
 
-const familyQuestions = [
+const wifeQuestions = [
   "¿Cuál es la comida favorita de tu esposa?",
   "¿Cuál es el color favorito de tu esposa?",
+  "¿Cuál es el postre favorito de tu esposa?",
   "¿Qué bebida le gusta más a tu esposa?",
   "¿Qué comida no le gusta a tu esposa?",
-  "¿Qué regalo le gustaría recibir a tu esposa?",
   "¿Cuál es la película favorita de tu esposa?",
   "¿Cuál es la canción favorita de tu esposa?",
-  "¿Qué le molesta más a tu esposa?",
+  "¿Qué regalo le gustaría recibir a tu esposa?",
   "¿Qué la pone feliz rápidamente?",
+  "¿Qué le molesta más a tu esposa?",
   "¿Cuál es el sueño más grande de tu esposa?",
   "¿Cuál es el lugar favorito de tu esposa?",
   "¿Qué frase repite mucho tu esposa?",
-  "¿Qué postre le gusta más a tu esposa?",
-  "¿Cuál fue el primer regalo que le diste?",
-  "¿Qué actividad disfruta hacer en familia?",
+  "¿Qué actividad disfruta hacer contigo?",
+  "¿Qué fecha especial nunca debes olvidar con tu esposa?"
+];
+
+const childQuestions = [
   "¿Cuál es la comida favorita de tu hijo o hija?",
   "¿Cuál es el color favorito de tu hijo o hija?",
-  "¿Quién es el mejor amigo de tu hijo o hija?",
-  "¿Cuál es el videojuego favorito de tu hijo o hija?",
+  "¿Qué quiere ser tu hijo o hija cuando sea grande?",
+  "¿Cuál es el animal favorito de tu hijo o hija?",
   "¿Cuál es la materia favorita de tu hijo o hija?",
-  "¿Qué materia le cuesta más?",
+  "¿Qué materia le cuesta más a tu hijo o hija?",
+  "¿Quién es el mejor amigo de tu hijo o hija?",
+  "¿Qué deporte le gusta más a tu hijo o hija?",
+  "¿Qué videojuego le gusta más a tu hijo o hija?",
+  "¿Qué película o serie le gusta ver a tu hijo o hija?",
+  "¿Qué comida nunca comería tu hijo o hija?",
   "¿Qué le da miedo a tu hijo o hija?",
-  "¿Qué deporte le gusta más?",
-  "¿Qué quiere ser cuando sea grande?",
-  "¿Qué comida nunca comería?",
-  "¿Qué película o serie le gusta ver?",
-  "¿Qué lo hace reír mucho?",
-  "¿Qué lo pone triste?",
-  "¿Qué le gusta hacer contigo?",
-  "¿Cuál es su animal favorito?"
+  "¿Qué hace reír mucho a tu hijo o hija?",
+  "¿Qué pone triste a tu hijo o hija?",
+  "¿Qué le gusta hacer contigo a tu hijo o hija?"
+];
+
+const familyQuestions = [
+  "¿Cuál ha sido el mejor paseo familiar?",
+  "¿Cuál es la comida que más disfrutan comer en familia?",
+  "¿Quién tarda más en alistarse en la casa?",
+  "¿Quién canta más en la casa?",
+  "¿Quién ve más televisión en la casa?",
+  "¿Quién deja más cosas tiradas?",
+  "¿Qué lugar quiere visitar la familia?",
+  "¿Qué actividad disfrutan hacer todos juntos?",
+  "¿Cuál es la tradición familiar más bonita?",
+  "¿Qué frase se repite mucho en la casa?"
 ];
 
 const triviaQuestions = [
-  { category:"Vehículos 🚗", q:"¿Qué marca fabrica el Corolla?", options:["Nissan","Toyota","Mazda","Kia"], answer:1 },
-  { category:"Vehículos 🚗", q:"¿Qué marca fabrica el Civic?", options:["Honda","Toyota","Ford","Hyundai"], answer:0 },
-  { category:"Vehículos 🚗", q:"¿Qué marca fabrica el Hilux?", options:["Ford","Toyota","Chevrolet","Nissan"], answer:1 },
-  { category:"Vehículos 🚗", q:"¿Qué marca fabrica el Mustang?", options:["Chevrolet","Dodge","Ford","BMW"], answer:2 },
-  { category:"Vehículos 🚗", q:"¿Qué marca fabrica el Sentra?", options:["Nissan","Toyota","Honda","Suzuki"], answer:0 },
-  { category:"Vehículos 🚗", q:"¿Qué marca fabrica el Sportage?", options:["Kia","Mazda","Ford","Toyota"], answer:0 },
-  { category:"Vehículos 🚗", q:"¿Qué marca fabrica el Tucson?", options:["Hyundai","Honda","Nissan","Volkswagen"], answer:0 },
-  { category:"Vehículos 🚗", q:"¿Qué marca fabrica el Ranger?", options:["Ford","Toyota","Mitsubishi","Kia"], answer:0 },
-  { category:"Vehículos 🚗", q:"¿Qué marca fabrica el L200?", options:["Mitsubishi","Nissan","Chevrolet","Honda"], answer:0 },
-  { category:"Vehículos 🚗", q:"¿Qué marca fabrica el Amarok?", options:["Volkswagen","Toyota","Ford","Mazda"], answer:0 },
-  { category:"Vehículos 🚗", q:"¿Qué marca fabrica el CX-5?", options:["Mazda","Hyundai","Kia","Nissan"], answer:0 },
-  { category:"Vehículos 🚗", q:"¿Qué marca fabrica el Prado?", options:["Toyota","Ford","Jeep","Honda"], answer:0 },
+  { category: "Vehículos 🚗", q: "¿Qué marca fabrica el Corolla?", options: ["Nissan", "Toyota", "Mazda", "Kia"], answer: 1 },
+  { category: "Vehículos 🚗", q: "¿Qué marca fabrica el Civic?", options: ["Honda", "Toyota", "Ford", "Hyundai"], answer: 0 },
+  { category: "Vehículos 🚗", q: "¿Qué marca fabrica el Hilux?", options: ["Ford", "Toyota", "Chevrolet", "Nissan"], answer: 1 },
+  { category: "Vehículos 🚗", q: "¿Qué marca fabrica el Mustang?", options: ["Chevrolet", "Dodge", "Ford", "BMW"], answer: 2 },
+  { category: "Vehículos 🚗", q: "¿Qué marca fabrica el Sentra?", options: ["Nissan", "Toyota", "Honda", "Suzuki"], answer: 0 },
+  { category: "Vehículos 🚗", q: "¿Qué marca fabrica el Sportage?", options: ["Kia", "Mazda", "Ford", "Toyota"], answer: 0 },
+  { category: "Vehículos 🚗", q: "¿Qué marca fabrica el Tucson?", options: ["Hyundai", "Honda", "Nissan", "Volkswagen"], answer: 0 },
+  { category: "Vehículos 🚗", q: "¿Qué marca fabrica el Ranger?", options: ["Ford", "Toyota", "Mitsubishi", "Kia"], answer: 0 },
+  { category: "Vehículos 🚗", q: "¿Qué marca fabrica el L200?", options: ["Mitsubishi", "Nissan", "Chevrolet", "Honda"], answer: 0 },
+  { category: "Vehículos 🚗", q: "¿Qué marca fabrica el Amarok?", options: ["Volkswagen", "Toyota", "Ford", "Mazda"], answer: 0 },
 
-  { category:"Herramientas 🔧", q:"¿Para qué sirve un nivel?", options:["Cortar madera","Medir corriente","Verificar si algo está nivelado","Pintar paredes"], answer:2 },
-  { category:"Herramientas 🔧", q:"¿Qué herramienta se usa para clavar?", options:["Martillo","Alicate","Taladro","Nivel"], answer:0 },
-  { category:"Herramientas 🔧", q:"¿Qué herramienta mide distancias?", options:["Serrucho","Cinta métrica","Llave inglesa","Escuadra"], answer:1 },
-  { category:"Herramientas 🔧", q:"¿Qué herramienta sirve para cortar madera manualmente?", options:["Serrucho","Alicate","Llave Allen","Nivel"], answer:0 },
-  { category:"Herramientas 🔧", q:"¿Qué herramienta se usa para apretar tornillos?", options:["Destornillador","Martillo","Brocha","Cincel"], answer:0 },
-  { category:"Herramientas 🔧", q:"¿Qué herramienta sirve para hacer agujeros?", options:["Taladro","Llave inglesa","Cinta métrica","Nivel"], answer:0 },
-  { category:"Herramientas 🔧", q:"¿Qué herramienta sirve para cortar alambre?", options:["Alicate","Rodillo","Serrucho","Escuadra"], answer:0 },
-  { category:"Herramientas 🔧", q:"¿Qué llave se ajusta a distintos tamaños?", options:["Llave ajustable","Llave fija","Llave Allen","Llave de paso"], answer:0 },
-  { category:"Herramientas 🔧", q:"¿Qué se usa para pintar una pared grande?", options:["Rodillo","Cincel","Taladro","Nivel"], answer:0 },
-  { category:"Herramientas 🔧", q:"¿Qué herramienta ayuda a marcar ángulos rectos?", options:["Escuadra","Martillo","Alicate","Broca"], answer:0 },
+  { category: "Herramientas 🔧", q: "¿Para qué sirve un nivel?", options: ["Cortar madera", "Medir corriente", "Verificar si algo está nivelado", "Pintar paredes"], answer: 2 },
+  { category: "Herramientas 🔧", q: "¿Qué herramienta se usa para clavar?", options: ["Martillo", "Alicate", "Taladro", "Nivel"], answer: 0 },
+  { category: "Herramientas 🔧", q: "¿Qué herramienta mide distancias?", options: ["Serrucho", "Cinta métrica", "Llave inglesa", "Escuadra"], answer: 1 },
+  { category: "Herramientas 🔧", q: "¿Qué herramienta sirve para cortar madera manualmente?", options: ["Serrucho", "Alicate", "Llave Allen", "Nivel"], answer: 0 },
+  { category: "Herramientas 🔧", q: "¿Qué herramienta se usa para apretar tornillos?", options: ["Destornillador", "Martillo", "Brocha", "Cincel"], answer: 0 },
+  { category: "Herramientas 🔧", q: "¿Qué herramienta sirve para hacer agujeros?", options: ["Taladro", "Llave inglesa", "Cinta métrica", "Nivel"], answer: 0 },
+  { category: "Herramientas 🔧", q: "¿Qué herramienta sirve para cortar alambre?", options: ["Alicate", "Rodillo", "Serrucho", "Escuadra"], answer: 0 },
+  { category: "Herramientas 🔧", q: "¿Qué llave se ajusta a distintos tamaños?", options: ["Llave ajustable", "Llave fija", "Llave Allen", "Llave de paso"], answer: 0 },
 
-  { category:"Fútbol ⚽", q:"¿Cuántos jugadores tiene un equipo en cancha?", options:["9","10","11","12"], answer:2 },
-  { category:"Fútbol ⚽", q:"¿Qué tarjeta expulsa a un jugador?", options:["Amarilla","Roja","Azul","Verde"], answer:1 },
-  { category:"Fútbol ⚽", q:"¿Cuánto dura un partido oficial sin tiempo extra?", options:["60 minutos","80 minutos","90 minutos","100 minutos"], answer:2 },
-  { category:"Fútbol ⚽", q:"¿Cómo se llama la falta dentro del área?", options:["Córner","Penal","Saque lateral","Tiro indirecto"], answer:1 },
-  { category:"Fútbol ⚽", q:"¿Qué jugador puede usar las manos dentro de su área?", options:["Defensa","Delantero","Portero","Capitán"], answer:2 },
-  { category:"Fútbol ⚽", q:"¿Cuántos tiempos tiene un partido normal?", options:["1","2","3","4"], answer:1 },
-  { category:"Fútbol ⚽", q:"¿Qué ocurre cuando el balón sale por la línea de fondo tocado por un defensor?", options:["Córner","Saque de banda","Penal","Gol automático"], answer:0 },
-  { category:"Fútbol ⚽", q:"¿Qué país ganó el Mundial 2022?", options:["Francia","Brasil","Argentina","Croacia"], answer:2 },
-  { category:"Fútbol ⚽", q:"¿Qué selección es conocida como La Canarinha?", options:["Brasil","España","Holanda","Alemania"], answer:0 },
-  { category:"Fútbol ⚽", q:"¿Qué significa VAR?", options:["Video Assistant Referee","Valor Alto Reglamentario","Vista Arbitral Rápida","Verificación Automática Real"], answer:0 },
+  { category: "Fútbol ⚽", q: "¿Cuántos jugadores tiene un equipo en cancha?", options: ["9", "10", "11", "12"], answer: 2 },
+  { category: "Fútbol ⚽", q: "¿Qué tarjeta expulsa a un jugador?", options: ["Amarilla", "Roja", "Azul", "Verde"], answer: 1 },
+  { category: "Fútbol ⚽", q: "¿Cuánto dura un partido oficial sin tiempo extra?", options: ["60 minutos", "80 minutos", "90 minutos", "100 minutos"], answer: 2 },
+  { category: "Fútbol ⚽", q: "¿Qué jugador puede usar las manos dentro de su área?", options: ["Defensa", "Delantero", "Portero", "Capitán"], answer: 2 },
+  { category: "Fútbol ⚽", q: "¿Qué país ganó el Mundial 2022?", options: ["Francia", "Brasil", "Argentina", "Croacia"], answer: 2 },
+  { category: "Fútbol ⚽", q: "¿Qué selección es conocida como La Canarinha?", options: ["Brasil", "España", "Holanda", "Alemania"], answer: 0 },
 
-  { category:"Biblia 📖", q:"¿Quién construyó el arca?", options:["Moisés","Noé","Abraham","David"], answer:1 },
-  { category:"Biblia 📖", q:"¿Quién fue tragado por un gran pez?", options:["Jonás","Pedro","Pablo","Isaías"], answer:0 },
-  { category:"Biblia 📖", q:"¿Quién recibió los Diez Mandamientos?", options:["Moisés","José","Salomón","Elías"], answer:0 },
-  { category:"Biblia 📖", q:"¿Quién venció a Goliat?", options:["David","Sansón","Josué","Daniel"], answer:0 },
-  { category:"Biblia 📖", q:"¿Dónde nació Jesús?", options:["Nazaret","Jerusalén","Belén","Galilea"], answer:2 },
-  { category:"Biblia 📖", q:"¿Quién negó a Jesús tres veces?", options:["Pedro","Juan","Tomás","Judas"], answer:0 },
-  { category:"Biblia 📖", q:"¿Cuál fue el primer milagro de Jesús?", options:["Multiplicar panes","Caminar sobre el agua","Convertir agua en vino","Sanar a un ciego"], answer:2 },
-  { category:"Biblia 📖", q:"¿Quién fue conocido por su gran fuerza?", options:["Sansón","Samuel","Jacob","Isaac"], answer:0 },
-  { category:"Biblia 📖", q:"¿Quién fue echado al foso de los leones?", options:["Daniel","David","José","Moisés"], answer:0 },
-  { category:"Biblia 📖", q:"¿Cuántos discípulos principales tuvo Jesús?", options:["10","11","12","13"], answer:2 },
-  { category:"Biblia 📖", q:"¿Quién traicionó a Jesús?", options:["Pedro","Judas","Mateo","Andrés"], answer:1 },
-  { category:"Biblia 📖", q:"¿Qué libro inicia la Biblia?", options:["Éxodo","Génesis","Mateo","Salmos"], answer:1 },
-  { category:"Biblia 📖", q:"¿Qué rey pidió sabiduría a Dios?", options:["Saúl","David","Salomón","Herodes"], answer:2 },
-  { category:"Biblia 📖", q:"¿Quién fue la madre de Jesús?", options:["Marta","María","Elisabet","Rut"], answer:1 },
-  { category:"Biblia 📖", q:"¿Qué mar fue abierto para que pasara Israel?", options:["Mar Rojo","Mar Muerto","Mar Mediterráneo","Mar de Galilea"], answer:0 }
+  { category: "Biblia 📖", q: "¿Quién construyó el arca?", options: ["Moisés", "Noé", "Abraham", "David"], answer: 1 },
+  { category: "Biblia 📖", q: "¿Quién fue tragado por un gran pez?", options: ["Jonás", "Pedro", "Pablo", "Isaías"], answer: 0 },
+  { category: "Biblia 📖", q: "¿Quién recibió los Diez Mandamientos?", options: ["Moisés", "José", "Salomón", "Elías"], answer: 0 },
+  { category: "Biblia 📖", q: "¿Quién venció a Goliat?", options: ["David", "Sansón", "Josué", "Daniel"], answer: 0 },
+  { category: "Biblia 📖", q: "¿Dónde nació Jesús?", options: ["Nazaret", "Jerusalén", "Belén", "Galilea"], answer: 2 },
+  { category: "Biblia 📖", q: "¿Quién fue conocido por su gran fuerza?", options: ["Sansón", "Samuel", "Jacob", "Isaac"], answer: 0 },
+  { category: "Biblia 📖", q: "¿Quién fue echado al foso de los leones?", options: ["Daniel", "David", "José", "Moisés"], answer: 0 },
+  { category: "Biblia 📖", q: "¿Qué libro inicia la Biblia?", options: ["Éxodo", "Génesis", "Mateo", "Salmos"], answer: 1 }
 ];
 
 function renderSetup() {
@@ -160,7 +142,7 @@ function renderSetup() {
     <div class="screen">
       <div class="card">
         <div class="title">⚽ PAPÁ WORLD CUP</div>
-        <p class="subtitle">La Copa del Conocimiento Familiar</p>
+        <p class="subtitle">Preguntas, goles y diversión del Día del Padre</p>
 
         <div class="grid">
           <div class="box">
@@ -168,7 +150,11 @@ function renderSetup() {
 
             <label>Seleccionar equipo</label>
             <select id="teamAName">
-              ${teamsCatalog.map((t, i) => `<option value="${i}">${t.flag} ${t.name}</option>`).join("")}
+              ${teamsCatalog.map((t, i) => `
+                <option value="${i}" ${t.name === "Holanda" ? "selected" : ""}>
+                  ${t.flag} ${t.name}
+                </option>
+              `).join("")}
             </select>
 
             <label>Nombre del papá</label>
@@ -183,7 +169,11 @@ function renderSetup() {
 
             <label>Seleccionar equipo</label>
             <select id="teamBName">
-              ${teamsCatalog.map((t, i) => `<option value="${i}" ${i === 8 ? "selected" : ""}>${t.flag} ${t.name}</option>`).join("")}
+              ${teamsCatalog.map((t, i) => `
+                <option value="${i}" ${t.name === "Brasil" ? "selected" : ""}>
+                  ${t.flag} ${t.name}
+                </option>
+              `).join("")}
             </select>
 
             <label>Nombre del papá</label>
@@ -194,10 +184,18 @@ function renderSetup() {
           </div>
         </div>
 
+        <label>Cantidad de preguntas totales</label>
+        <select id="maxRounds">
+          <option value="10">10 preguntas</option>
+          <option value="20" selected>20 preguntas</option>
+          <option value="30">30 preguntas</option>
+          <option value="40">40 preguntas</option>
+        </select>
+
         <button class="btn btn-yellow" onclick="startGame()">INICIAR PARTIDO</button>
 
         <p class="small">
-          Reglas: 3 respuestas malas = roja. Pierde 30 puntos, no juega un turno y luego regresa.
+          Regla simple: si responde bien, su equipo anota gol. Si responde mal, no anota. Luego cambia el turno.
         </p>
       </div>
     </div>
@@ -210,17 +208,18 @@ function addPlayer(team) {
   const input = document.getElementById(team === "A" ? "playerAName" : "playerBName");
   const name = input.value.trim();
 
-  if (!name) return alert("Escribe el nombre del papá.");
+  if (!name) {
+    alert("Escribe el nombre del papá.");
+    return;
+  }
 
-  const player = {
-    name,
-    points: 0,
-    mistakes: 0,
-    expelledTurns: 0
-  };
+  const player = { name };
 
-  if (team === "A") game.teamA.players.push(player);
-  else game.teamB.players.push(player);
+  if (team === "A") {
+    game.teamA.players.push(player);
+  } else {
+    game.teamB.players.push(player);
+  }
 
   input.value = "";
   updateLists();
@@ -247,9 +246,13 @@ function startGame() {
 
   game.teamA.name = teamAData.name;
   game.teamA.flag = teamAData.flag;
+  game.teamA.code = teamAData.code;
 
   game.teamB.name = teamBData.name;
   game.teamB.flag = teamBData.flag;
+  game.teamB.code = teamBData.code;
+
+  game.maxRounds = Number(document.getElementById("maxRounds").value);
 
   if (game.teamA.players.length === 0 || game.teamB.players.length === 0) {
     alert("Cada equipo debe tener al menos un papá.");
@@ -263,53 +266,56 @@ function getTeam(letter) {
   return letter === "A" ? game.teamA : game.teamB;
 }
 
-function getNextPlayer(teamLetter, role) {
-  const team = getTeam(teamLetter);
+function getCurrentPlayer() {
+  const team = getTeam(game.turnTeam);
 
-  let indexKey = "";
-  if (teamLetter === "A" && role === "attack") indexKey = "attackIndexA";
-  if (teamLetter === "B" && role === "attack") indexKey = "attackIndexB";
-  if (teamLetter === "A" && role === "defense") indexKey = "defenseIndexA";
-  if (teamLetter === "B" && role === "defense") indexKey = "defenseIndexB";
-
-  let attempts = 0;
-
-  while (attempts < team.players.length) {
-    const index = game[indexKey] % team.players.length;
-    const player = team.players[index];
-
-    game[indexKey]++;
-
-    if (player.expelledTurns > 0) {
-      player.expelledTurns--;
-      attempts++;
-      continue;
-    }
-
+  if (game.turnTeam === "A") {
+    const player = team.players[game.playerIndexA % team.players.length];
+    game.playerIndexA++;
     return player;
   }
 
-  return team.players[0];
+  const player = team.players[game.playerIndexB % team.players.length];
+  game.playerIndexB++;
+  return player;
 }
 
 function nextTurn() {
-  game.phase = "attack";
+  if (game.round > game.maxRounds) {
+    renderFinal();
+    return;
+  }
 
-  const attackingTeam = game.turnTeam;
-  const defendingTeam = attackingTeam === "A" ? "B" : "A";
-
-  game.attacker = getNextPlayer(attackingTeam, "attack");
-  game.defender = getNextPlayer(defendingTeam, "defense");
+  game.currentPlayer = getCurrentPlayer();
   game.currentQuestion = getRandomQuestion();
   game.message = "";
-
   renderGame();
 }
 
 function getRandomQuestion() {
   const allQuestions = [
-    ...familyQuestions.map(q => ({ type: "family", category: "Familia ❤️", q })),
-    ...triviaQuestions.map(q => ({ type: "trivia", ...q }))
+    ...wifeQuestions.map(q => ({
+      type: "judge",
+      category: "Esposa ❤️",
+      q,
+      note: "La esposa confirma si la respuesta está correcta."
+    })),
+    ...childQuestions.map(q => ({
+      type: "judge",
+      category: "Hijos 👧👦",
+      q,
+      note: "Los hijos confirman si la respuesta está correcta."
+    })),
+    ...familyQuestions.map(q => ({
+      type: "judge",
+      category: "Familia 👨‍👩‍👧‍👦",
+      q,
+      note: "La familia confirma si la respuesta está correcta."
+    })),
+    ...triviaQuestions.map(q => ({
+      type: "options",
+      ...q
+    }))
   ];
 
   let available = allQuestions.filter(q => !usedQuestions.includes(q.q));
@@ -325,27 +331,14 @@ function getRandomQuestion() {
   return selected;
 }
 
-function renderTeamPanel(team) {
-  return `
-    <div class="team-panel">
-      <div style="font-size:56px;">${team.flag}</div>
-      <h2>${team.name}</h2>
-      <p>⚽ Goles: ${team.goals}</p>
-      <p>🏆 Puntos: ${team.score}</p>
-    </div>
-  `;
-}
-
 function renderGame() {
+  const activeTeam = getTeam(game.turnTeam);
+
   app.innerHTML = `
     <div class="screen">
       <div class="scoreboard">
         ${renderTeamPanel(game.teamA)}
-
-        <div class="score">
-          ${game.teamA.goals} - ${game.teamB.goals}
-        </div>
-
+        <div class="score">${game.teamA.goals} - ${game.teamB.goals}</div>
         ${renderTeamPanel(game.teamB)}
       </div>
 
@@ -356,37 +349,44 @@ function renderGame() {
         <div class="goal left"></div>
         <div class="goal right"></div>
 
-        <div class="player-icon attacker" id="attackerIcon">
-          <div style="font-size:36px;">${getTeam(findPlayerTeam(game.attacker)).flag}</div>
+        <div class="player-icon attacker">
+          <div style="font-size:42px;">${activeTeam.flag}</div>
           🏃‍♂️
         </div>
 
-        <div class="ball" id="ball">⚽</div>
+        <div class="ball">⚽</div>
 
-        <div class="player-icon goalkeeper" id="keeperIcon">
-          <div style="font-size:36px;">${getTeam(findPlayerTeam(game.defender)).flag}</div>
-          🧤
+        <div class="player-icon goalkeeper">
+          🥅
+        </div>
+
+        <div style="position:absolute;left:160px;top:45px;font-size:34px;font-weight:900;">
+          ${activeTeam.code}
+        </div>
+
+        <div style="position:absolute;right:160px;top:45px;font-size:34px;font-weight:900;">
+          GOL
         </div>
       </div>
 
       <div class="main-game">
         <div class="turn">
-          ${game.phase === "attack"
-            ? `⚽ Ataque: ${game.attacker.name} | ${getTeam(findPlayerTeam(game.attacker)).flag} ${getTeam(findPlayerTeam(game.attacker)).name}`
-            : `🧤 Atajada: ${game.defender.name} | ${getTeam(findPlayerTeam(game.defender)).flag} ${getTeam(findPlayerTeam(game.defender)).name}`}
+          ⚽ Turno de ${activeTeam.flag} ${activeTeam.name}: ${game.currentPlayer.name}
         </div>
 
         <div style="text-align:center;">
           <span class="badge">${game.currentQuestion.category}</span>
         </div>
 
-        <div class="question">
-          ${game.currentQuestion.q}
-        </div>
+        <div class="question">${game.currentQuestion.q}</div>
 
         ${renderQuestionControls()}
 
         <div class="message">${game.message}</div>
+
+        <p class="small" style="text-align:center;">
+          Pregunta ${game.round} de ${game.maxRounds}
+        </p>
       </div>
 
       <div class="stats">
@@ -404,16 +404,26 @@ function renderGame() {
   `;
 }
 
+function renderTeamPanel(team) {
+  return `
+    <div class="team-panel">
+      <div style="font-size:58px;">${team.flag}</div>
+      <h2>${team.name}</h2>
+      <p>⚽ Goles: ${team.goals}</p>
+    </div>
+  `;
+}
+
 function renderQuestionControls() {
-  if (game.currentQuestion.type === "family") {
+  if (game.currentQuestion.type === "judge") {
     return `
       <p class="small" style="text-align:center;">
-        Papá responde en voz alta. Mamá o los hijos deciden si está correcto.
+        ${game.currentQuestion.note}
       </p>
 
       <div class="judge">
-        <button class="btn" onclick="answer(true)">✅ Correcto</button>
-        <button class="btn btn-red" onclick="answer(false)">❌ Incorrecto</button>
+        <button class="btn" onclick="answer(true)">✅ Correcto: Gol</button>
+        <button class="btn btn-red" onclick="answer(false)">❌ Incorrecto: No hay gol</button>
       </div>
     `;
   }
@@ -430,106 +440,78 @@ function renderQuestionControls() {
 }
 
 function answer(isCorrect) {
-  const activePlayer = game.phase === "attack" ? game.attacker : game.defender;
-  const activeTeamLetter = findPlayerTeam(activePlayer);
-  const activeTeam = getTeam(activeTeamLetter);
+  const activeTeam = getTeam(game.turnTeam);
 
   if (isCorrect) {
-    activePlayer.points += 10;
-    activeTeam.score += 10;
-    game.message = "✅ Respuesta correcta: +10 puntos";
+    activeTeam.goals++;
+    game.message = `⚽ ¡GOOOOOOL para ${activeTeam.flag} ${activeTeam.name}!`;
   } else {
-    activePlayer.mistakes++;
-    game.message = "❌ Respuesta incorrecta";
-    checkCards(activePlayer, activeTeam);
+    game.message = "❌ Falló. No hay gol.";
   }
-
-  if (game.phase === "attack") {
-    if (isCorrect) {
-      game.phase = "defense";
-      game.currentQuestion = getRandomQuestion();
-      game.message = "⚽ ¡Disparo al arco! Ahora toca atajar.";
-      renderGame();
-      return;
-    }
-
-    renderGame();
-    setTimeout(() => switchTurn(), 1000);
-    return;
-  }
-
-  if (game.phase === "defense") {
-    if (isCorrect) {
-      activePlayer.points += 15;
-      activeTeam.score += 15;
-      game.message = "🧤 ¡Atajadón! +15 puntos";
-
-      renderGame();
-
-      setTimeout(() => {
-        switchTurn();
-      }, 1200);
-
-      return;
-    }
-
-    goal();
-  }
-}
-
-function checkCards(player, team) {
-  if (player.mistakes === 2) {
-    game.message += " 🟨 Tarjeta amarilla.";
-  }
-
-  if (player.mistakes >= 3) {
-    player.mistakes = 0;
-    player.expelledTurns = 1;
-    player.points -= 30;
-    team.score -= 30;
-
-    game.message += ` 🟥 ${player.name} fue expulsado temporalmente. Pierde 30 puntos y no juega un turno.`;
-  }
-}
-
-function goal() {
-  const attackingTeamLetter = findPlayerTeam(game.attacker);
-  const attackingTeam = getTeam(attackingTeamLetter);
-
-  attackingTeam.goals++;
-  attackingTeam.score += 20;
-  game.attacker.points += 20;
-
-  game.message = `⚽ ¡GOOOOOOL de ${game.attacker.name}! +20 puntos`;
 
   renderGame();
 
   setTimeout(() => {
-    switchTurn();
-  }, 1400);
-}
-
-function switchTurn() {
-  game.turnTeam = game.turnTeam === "A" ? "B" : "A";
-  game.round++;
-  nextTurn();
-}
-
-function findPlayerTeam(player) {
-  if (game.teamA.players.includes(player)) return "A";
-  return "B";
+    game.turnTeam = game.turnTeam === "A" ? "B" : "A";
+    game.round++;
+    nextTurn();
+  }, 1200);
 }
 
 function renderPlayers(players) {
   return players.map(p => `
-    <div class="player-chip">
-      👨 ${p.name}<br>
-      🏆 Puntos: ${p.points}<br>
-      ❌ Errores: ${p.mistakes}/3
-      ${p.expelledTurns > 0 ? `<br><span class="red-card">🟥 Expulsado: pierde próximo turno</span>` : ""}
-      ${p.mistakes === 2 ? `<br><span class="yellow-card">🟨 En peligro</span>` : ""}
-    </div>
+    <div class="player-chip">👨 ${p.name}</div>
   `).join("");
+}
+
+function renderFinal() {
+  let winnerText = "";
+  let winnerFlag = "";
+
+  if (game.teamA.goals > game.teamB.goals) {
+    winnerText = `${game.teamA.name} gana`;
+    winnerFlag = game.teamA.flag;
+  } else if (game.teamB.goals > game.teamA.goals) {
+    winnerText = `${game.teamB.name} gana`;
+    winnerFlag = game.teamB.flag;
+  } else {
+    winnerText = "Empate";
+    winnerFlag = "🤝";
+  }
+
+  app.innerHTML = `
+    <div class="screen">
+      <div class="card">
+        <div class="title">🏆 FINAL DEL PARTIDO</div>
+
+        <div style="text-align:center;font-size:90px;margin:20px;">
+          ${winnerFlag}
+        </div>
+
+        <h1 style="text-align:center;color:#ffd447;">
+          ${winnerText}
+        </h1>
+
+        <div class="score" style="max-width:320px;margin:25px auto;">
+          ${game.teamA.goals} - ${game.teamB.goals}
+        </div>
+
+        <div class="grid">
+          <div class="box">
+            <h2>${game.teamA.flag} ${game.teamA.name}</h2>
+            ${renderPlayers(game.teamA.players)}
+          </div>
+
+          <div class="box">
+            <h2>${game.teamB.flag} ${game.teamB.name}</h2>
+            ${renderPlayers(game.teamB.players)}
+          </div>
+        </div>
+
+        <button class="btn btn-yellow" onclick="location.reload()">JUGAR OTRA VEZ</button>
+      </div>
+    </div>
+  `;
 }
 
 renderSetup();
