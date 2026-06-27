@@ -1,25 +1,61 @@
 const app = document.getElementById("app");
 
 const teamsCatalog = [
-  "México 🇲🇽", "Sudáfrica 🇿🇦", "Corea del Sur 🇰🇷", "Chequia 🇨🇿",
-  "Canadá 🇨🇦", "Bosnia y Herzegovina 🇧🇦", "Qatar 🇶🇦", "Suiza 🇨🇭",
-  "Brasil 🇧🇷", "Marruecos 🇲🇦", "Haití 🇭🇹", "Escocia 🏴",
-  "Estados Unidos 🇺🇸", "Paraguay 🇵🇾", "Australia 🇦🇺", "Turquía 🇹🇷",
-  "Alemania 🇩🇪", "Curazao 🇨🇼", "Costa de Marfil 🇨🇮", "Ecuador 🇪🇨",
-  "Holanda 🇳🇱", "Japón 🇯🇵", "Suecia 🇸🇪", "Túnez 🇹🇳",
-  "Bélgica 🇧🇪", "Egipto 🇪🇬", "Irán 🇮🇷", "Nueva Zelanda 🇳🇿",
-  "España 🇪🇸", "Cabo Verde 🇨🇻", "Arabia Saudita 🇸🇦", "Uruguay 🇺🇾",
-  "Francia 🇫🇷", "Senegal 🇸🇳", "Irak 🇮🇶", "Noruega 🇳🇴",
-  "Argentina 🇦🇷", "Argelia 🇩🇿", "Austria 🇦🇹", "Jordania 🇯🇴",
-  "Portugal 🇵🇹", "República Democrática del Congo 🇨🇩", "Uzbekistán 🇺🇿", "Colombia 🇨🇴",
-  "Inglaterra 🏴", "Croacia 🇭🇷", "Ghana 🇬🇭", "Panamá 🇵🇦"
+  { name: "México", flag: "🇲🇽" },
+  { name: "Sudáfrica", flag: "🇿🇦" },
+  { name: "Corea del Sur", flag: "🇰🇷" },
+  { name: "Chequia", flag: "🇨🇿" },
+  { name: "Canadá", flag: "🇨🇦" },
+  { name: "Bosnia y Herzegovina", flag: "🇧🇦" },
+  { name: "Qatar", flag: "🇶🇦" },
+  { name: "Suiza", flag: "🇨🇭" },
+  { name: "Brasil", flag: "🇧🇷" },
+  { name: "Marruecos", flag: "🇲🇦" },
+  { name: "Haití", flag: "🇭🇹" },
+  { name: "Escocia", flag: "🏴" },
+  { name: "Estados Unidos", flag: "🇺🇸" },
+  { name: "Paraguay", flag: "🇵🇾" },
+  { name: "Australia", flag: "🇦🇺" },
+  { name: "Turquía", flag: "🇹🇷" },
+  { name: "Alemania", flag: "🇩🇪" },
+  { name: "Curazao", flag: "🇨🇼" },
+  { name: "Costa de Marfil", flag: "🇨🇮" },
+  { name: "Ecuador", flag: "🇪🇨" },
+  { name: "Holanda", flag: "🇳🇱" },
+  { name: "Japón", flag: "🇯🇵" },
+  { name: "Suecia", flag: "🇸🇪" },
+  { name: "Túnez", flag: "🇹🇳" },
+  { name: "Bélgica", flag: "🇧🇪" },
+  { name: "Egipto", flag: "🇪🇬" },
+  { name: "Irán", flag: "🇮🇷" },
+  { name: "Nueva Zelanda", flag: "🇳🇿" },
+  { name: "España", flag: "🇪🇸" },
+  { name: "Cabo Verde", flag: "🇨🇻" },
+  { name: "Arabia Saudita", flag: "🇸🇦" },
+  { name: "Uruguay", flag: "🇺🇾" },
+  { name: "Francia", flag: "🇫🇷" },
+  { name: "Senegal", flag: "🇸🇳" },
+  { name: "Irak", flag: "🇮🇶" },
+  { name: "Noruega", flag: "🇳🇴" },
+  { name: "Argentina", flag: "🇦🇷" },
+  { name: "Argelia", flag: "🇩🇿" },
+  { name: "Austria", flag: "🇦🇹" },
+  { name: "Jordania", flag: "🇯🇴" },
+  { name: "Portugal", flag: "🇵🇹" },
+  { name: "República Democrática del Congo", flag: "🇨🇩" },
+  { name: "Uzbekistán", flag: "🇺🇿" },
+  { name: "Colombia", flag: "🇨🇴" },
+  { name: "Inglaterra", flag: "🏴" },
+  { name: "Croacia", flag: "🇭🇷" },
+  { name: "Ghana", flag: "🇬🇭" },
+  { name: "Panamá", flag: "🇵🇦" }
 ];
 
 let usedQuestions = [];
 
 let game = {
-  teamA: { name: "Holanda 🇳🇱", players: [], score: 0, goals: 0 },
-  teamB: { name: "Brasil 🇧🇷", players: [], score: 0, goals: 0 },
+  teamA: { name: "Holanda", flag: "🇳🇱", players: [], score: 0, goals: 0 },
+  teamB: { name: "Brasil", flag: "🇧🇷", players: [], score: 0, goals: 0 },
   turnTeam: "A",
   attackIndexA: 0,
   attackIndexB: 0,
@@ -45,14 +81,9 @@ const familyQuestions = [
   "¿Qué la pone feliz rápidamente?",
   "¿Cuál es el sueño más grande de tu esposa?",
   "¿Cuál es el lugar favorito de tu esposa?",
-  "¿Qué es lo primero que hace tu esposa al despertar?",
   "¿Qué frase repite mucho tu esposa?",
-  "¿Qué color de ropa usa más tu esposa?",
   "¿Qué postre le gusta más a tu esposa?",
-  "¿Qué fecha especial nunca debes olvidar?",
   "¿Cuál fue el primer regalo que le diste?",
-  "¿Qué es lo que más admira tu esposa de ti?",
-  "¿Qué le da más tranquilidad a tu esposa?",
   "¿Qué actividad disfruta hacer en familia?",
   "¿Cuál es la comida favorita de tu hijo o hija?",
   "¿Cuál es el color favorito de tu hijo o hija?",
@@ -63,17 +94,12 @@ const familyQuestions = [
   "¿Qué le da miedo a tu hijo o hija?",
   "¿Qué deporte le gusta más?",
   "¿Qué quiere ser cuando sea grande?",
-  "¿Qué juguete u objeto cuida más?",
   "¿Qué comida nunca comería?",
-  "¿Qué canción le gusta mucho?",
   "¿Qué película o serie le gusta ver?",
   "¿Qué lo hace reír mucho?",
   "¿Qué lo pone triste?",
   "¿Qué le gusta hacer contigo?",
-  "¿Qué le gusta hacer con mamá?",
-  "¿Qué lugar le gusta visitar?",
-  "¿Cuál es su animal favorito?",
-  "¿Cuál fue su último logro importante?"
+  "¿Cuál es su animal favorito?"
 ];
 
 const triviaQuestions = [
@@ -96,7 +122,7 @@ const triviaQuestions = [
   { category:"Herramientas 🔧", q:"¿Qué herramienta sirve para cortar madera manualmente?", options:["Serrucho","Alicate","Llave Allen","Nivel"], answer:0 },
   { category:"Herramientas 🔧", q:"¿Qué herramienta se usa para apretar tornillos?", options:["Destornillador","Martillo","Brocha","Cincel"], answer:0 },
   { category:"Herramientas 🔧", q:"¿Qué herramienta sirve para hacer agujeros?", options:["Taladro","Llave inglesa","Cinta métrica","Nivel"], answer:0 },
-  { category:"Herramientas 🔧", q:"¿Qué herramienta sirve para sujetar o cortar alambre?", options:["Alicate","Rodillo","Serrucho","Escuadra"], answer:0 },
+  { category:"Herramientas 🔧", q:"¿Qué herramienta sirve para cortar alambre?", options:["Alicate","Rodillo","Serrucho","Escuadra"], answer:0 },
   { category:"Herramientas 🔧", q:"¿Qué llave se ajusta a distintos tamaños?", options:["Llave ajustable","Llave fija","Llave Allen","Llave de paso"], answer:0 },
   { category:"Herramientas 🔧", q:"¿Qué se usa para pintar una pared grande?", options:["Rodillo","Cincel","Taladro","Nivel"], answer:0 },
   { category:"Herramientas 🔧", q:"¿Qué herramienta ayuda a marcar ángulos rectos?", options:["Escuadra","Martillo","Alicate","Broca"], answer:0 },
@@ -104,7 +130,7 @@ const triviaQuestions = [
   { category:"Fútbol ⚽", q:"¿Cuántos jugadores tiene un equipo en cancha?", options:["9","10","11","12"], answer:2 },
   { category:"Fútbol ⚽", q:"¿Qué tarjeta expulsa a un jugador?", options:["Amarilla","Roja","Azul","Verde"], answer:1 },
   { category:"Fútbol ⚽", q:"¿Cuánto dura un partido oficial sin tiempo extra?", options:["60 minutos","80 minutos","90 minutos","100 minutos"], answer:2 },
-  { category:"Fútbol ⚽", q:"¿Cómo se llama la falta dentro del área que puede terminar en tiro directo al arco?", options:["Córner","Penal","Saque lateral","Tiro libre indirecto"], answer:1 },
+  { category:"Fútbol ⚽", q:"¿Cómo se llama la falta dentro del área?", options:["Córner","Penal","Saque lateral","Tiro indirecto"], answer:1 },
   { category:"Fútbol ⚽", q:"¿Qué jugador puede usar las manos dentro de su área?", options:["Defensa","Delantero","Portero","Capitán"], answer:2 },
   { category:"Fútbol ⚽", q:"¿Cuántos tiempos tiene un partido normal?", options:["1","2","3","4"], answer:1 },
   { category:"Fútbol ⚽", q:"¿Qué ocurre cuando el balón sale por la línea de fondo tocado por un defensor?", options:["Córner","Saque de banda","Penal","Gol automático"], answer:0 },
@@ -118,7 +144,7 @@ const triviaQuestions = [
   { category:"Biblia 📖", q:"¿Quién venció a Goliat?", options:["David","Sansón","Josué","Daniel"], answer:0 },
   { category:"Biblia 📖", q:"¿Dónde nació Jesús?", options:["Nazaret","Jerusalén","Belén","Galilea"], answer:2 },
   { category:"Biblia 📖", q:"¿Quién negó a Jesús tres veces?", options:["Pedro","Juan","Tomás","Judas"], answer:0 },
-  { category:"Biblia 📖", q:"¿Cuál fue el primer milagro de Jesús según el Evangelio de Juan?", options:["Multiplicar panes","Caminar sobre el agua","Convertir agua en vino","Sanar a un ciego"], answer:2 },
+  { category:"Biblia 📖", q:"¿Cuál fue el primer milagro de Jesús?", options:["Multiplicar panes","Caminar sobre el agua","Convertir agua en vino","Sanar a un ciego"], answer:2 },
   { category:"Biblia 📖", q:"¿Quién fue conocido por su gran fuerza?", options:["Sansón","Samuel","Jacob","Isaac"], answer:0 },
   { category:"Biblia 📖", q:"¿Quién fue echado al foso de los leones?", options:["Daniel","David","José","Moisés"], answer:0 },
   { category:"Biblia 📖", q:"¿Cuántos discípulos principales tuvo Jesús?", options:["10","11","12","13"], answer:2 },
@@ -126,7 +152,7 @@ const triviaQuestions = [
   { category:"Biblia 📖", q:"¿Qué libro inicia la Biblia?", options:["Éxodo","Génesis","Mateo","Salmos"], answer:1 },
   { category:"Biblia 📖", q:"¿Qué rey pidió sabiduría a Dios?", options:["Saúl","David","Salomón","Herodes"], answer:2 },
   { category:"Biblia 📖", q:"¿Quién fue la madre de Jesús?", options:["Marta","María","Elisabet","Rut"], answer:1 },
-  { category:"Biblia 📖", q:"¿Qué mar fue abierto para que pasara el pueblo de Israel?", options:["Mar Rojo","Mar Muerto","Mar Mediterráneo","Mar de Galilea"], answer:0 }
+  { category:"Biblia 📖", q:"¿Qué mar fue abierto para que pasara Israel?", options:["Mar Rojo","Mar Muerto","Mar Mediterráneo","Mar de Galilea"], answer:0 }
 ];
 
 function renderSetup() {
@@ -139,9 +165,10 @@ function renderSetup() {
         <div class="grid">
           <div class="box">
             <h2>Equipo 1</h2>
+
             <label>Seleccionar equipo</label>
             <select id="teamAName">
-              ${teamsCatalog.map(t => `<option>${t}</option>`).join("")}
+              ${teamsCatalog.map((t, i) => `<option value="${i}">${t.flag} ${t.name}</option>`).join("")}
             </select>
 
             <label>Nombre del papá</label>
@@ -153,9 +180,10 @@ function renderSetup() {
 
           <div class="box">
             <h2>Equipo 2</h2>
+
             <label>Seleccionar equipo</label>
             <select id="teamBName">
-              ${teamsCatalog.map(t => `<option>${t}</option>`).join("")}
+              ${teamsCatalog.map((t, i) => `<option value="${i}" ${i === 8 ? "selected" : ""}>${t.flag} ${t.name}</option>`).join("")}
             </select>
 
             <label>Nombre del papá</label>
@@ -169,7 +197,7 @@ function renderSetup() {
         <button class="btn btn-yellow" onclick="startGame()">INICIAR PARTIDO</button>
 
         <p class="small">
-          Reglas: 3 respuestas malas = tarjeta roja. El papá pierde 30 puntos, no juega un turno y luego regresa.
+          Reglas: 3 respuestas malas = roja. Pierde 30 puntos, no juega un turno y luego regresa.
         </p>
       </div>
     </div>
@@ -214,8 +242,14 @@ function updateLists() {
 }
 
 function startGame() {
-  game.teamA.name = document.getElementById("teamAName").value;
-  game.teamB.name = document.getElementById("teamBName").value;
+  const teamAData = teamsCatalog[Number(document.getElementById("teamAName").value)];
+  const teamBData = teamsCatalog[Number(document.getElementById("teamBName").value)];
+
+  game.teamA.name = teamAData.name;
+  game.teamA.flag = teamAData.flag;
+
+  game.teamB.name = teamBData.name;
+  game.teamB.flag = teamBData.flag;
 
   if (game.teamA.players.length === 0 || game.teamB.players.length === 0) {
     alert("Cada equipo debe tener al menos un papá.");
@@ -231,8 +265,8 @@ function getTeam(letter) {
 
 function getNextPlayer(teamLetter, role) {
   const team = getTeam(teamLetter);
-  let indexKey = "";
 
+  let indexKey = "";
   if (teamLetter === "A" && role === "attack") indexKey = "attackIndexA";
   if (teamLetter === "B" && role === "attack") indexKey = "attackIndexB";
   if (teamLetter === "A" && role === "defense") indexKey = "defenseIndexA";
@@ -243,6 +277,7 @@ function getNextPlayer(teamLetter, role) {
   while (attempts < team.players.length) {
     const index = game[indexKey] % team.players.length;
     const player = team.players[index];
+
     game[indexKey]++;
 
     if (player.expelledTurns > 0) {
@@ -273,15 +308,8 @@ function nextTurn() {
 
 function getRandomQuestion() {
   const allQuestions = [
-    ...familyQuestions.map(q => ({
-      type: "family",
-      category: "Familia ❤️",
-      q
-    })),
-    ...triviaQuestions.map(q => ({
-      type: "trivia",
-      ...q
-    }))
+    ...familyQuestions.map(q => ({ type: "family", category: "Familia ❤️", q })),
+    ...triviaQuestions.map(q => ({ type: "trivia", ...q }))
   ];
 
   let available = allQuestions.filter(q => !usedQuestions.includes(q.q));
@@ -297,25 +325,28 @@ function getRandomQuestion() {
   return selected;
 }
 
+function renderTeamPanel(team) {
+  return `
+    <div class="team-panel">
+      <div style="font-size:56px;">${team.flag}</div>
+      <h2>${team.name}</h2>
+      <p>⚽ Goles: ${team.goals}</p>
+      <p>🏆 Puntos: ${team.score}</p>
+    </div>
+  `;
+}
+
 function renderGame() {
   app.innerHTML = `
     <div class="screen">
       <div class="scoreboard">
-        <div class="team-panel">
-          <h2>${game.teamA.name}</h2>
-          <p>Goles: ${game.teamA.goals}</p>
-          <p>Puntos: ${game.teamA.score}</p>
-        </div>
+        ${renderTeamPanel(game.teamA)}
 
         <div class="score">
           ${game.teamA.goals} - ${game.teamB.goals}
         </div>
 
-        <div class="team-panel">
-          <h2>${game.teamB.name}</h2>
-          <p>Goles: ${game.teamB.goals}</p>
-          <p>Puntos: ${game.teamB.score}</p>
-        </div>
+        ${renderTeamPanel(game.teamB)}
       </div>
 
       <div class="stadium">
@@ -324,16 +355,25 @@ function renderGame() {
         <div class="circle"></div>
         <div class="goal left"></div>
         <div class="goal right"></div>
-        <div class="player-icon attacker" id="attackerIcon">🏃‍♂️</div>
+
+        <div class="player-icon attacker" id="attackerIcon">
+          <div style="font-size:36px;">${getTeam(findPlayerTeam(game.attacker)).flag}</div>
+          🏃‍♂️
+        </div>
+
         <div class="ball" id="ball">⚽</div>
-        <div class="player-icon goalkeeper" id="keeperIcon">🧤</div>
+
+        <div class="player-icon goalkeeper" id="keeperIcon">
+          <div style="font-size:36px;">${getTeam(findPlayerTeam(game.defender)).flag}</div>
+          🧤
+        </div>
       </div>
 
       <div class="main-game">
         <div class="turn">
           ${game.phase === "attack"
-            ? `⚽ Ataque: ${game.attacker.name}`
-            : `🧤 Atajada: ${game.defender.name}`}
+            ? `⚽ Ataque: ${game.attacker.name} | ${getTeam(findPlayerTeam(game.attacker)).flag} ${getTeam(findPlayerTeam(game.attacker)).name}`
+            : `🧤 Atajada: ${game.defender.name} | ${getTeam(findPlayerTeam(game.defender)).flag} ${getTeam(findPlayerTeam(game.defender)).name}`}
         </div>
 
         <div style="text-align:center;">
@@ -351,12 +391,12 @@ function renderGame() {
 
       <div class="stats">
         <div class="box">
-          <h3>${game.teamA.name}</h3>
+          <h3>${game.teamA.flag} ${game.teamA.name}</h3>
           ${renderPlayers(game.teamA.players)}
         </div>
 
         <div class="box">
-          <h3>${game.teamB.name}</h3>
+          <h3>${game.teamB.flag} ${game.teamB.name}</h3>
           ${renderPlayers(game.teamB.players)}
         </div>
       </div>
@@ -408,12 +448,14 @@ function answer(isCorrect) {
     if (isCorrect) {
       game.phase = "defense";
       game.currentQuestion = getRandomQuestion();
+      game.message = "⚽ ¡Disparo al arco! Ahora toca atajar.";
       renderGame();
       return;
-    } else {
-      switchTurn();
-      return;
     }
+
+    renderGame();
+    setTimeout(() => switchTurn(), 1000);
+    return;
   }
 
   if (game.phase === "defense") {
@@ -421,12 +463,17 @@ function answer(isCorrect) {
       activePlayer.points += 15;
       activeTeam.score += 15;
       game.message = "🧤 ¡Atajadón! +15 puntos";
+
       renderGame();
-      return;
-    } else {
-      goal();
+
+      setTimeout(() => {
+        switchTurn();
+      }, 1200);
+
       return;
     }
+
+    goal();
   }
 }
 
@@ -440,6 +487,7 @@ function checkCards(player, team) {
     player.expelledTurns = 1;
     player.points -= 30;
     team.score -= 30;
+
     game.message += ` 🟥 ${player.name} fue expulsado temporalmente. Pierde 30 puntos y no juega un turno.`;
   }
 }
@@ -455,6 +503,10 @@ function goal() {
   game.message = `⚽ ¡GOOOOOOL de ${game.attacker.name}! +20 puntos`;
 
   renderGame();
+
+  setTimeout(() => {
+    switchTurn();
+  }, 1400);
 }
 
 function switchTurn() {
@@ -472,8 +524,8 @@ function renderPlayers(players) {
   return players.map(p => `
     <div class="player-chip">
       👨 ${p.name}<br>
-      Puntos: ${p.points}<br>
-      Errores: ${p.mistakes}/3
+      🏆 Puntos: ${p.points}<br>
+      ❌ Errores: ${p.mistakes}/3
       ${p.expelledTurns > 0 ? `<br><span class="red-card">🟥 Expulsado: pierde próximo turno</span>` : ""}
       ${p.mistakes === 2 ? `<br><span class="yellow-card">🟨 En peligro</span>` : ""}
     </div>
