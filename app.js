@@ -241,7 +241,7 @@ function nextTurn() {
   }
 
   game.locked = false;
-  game.timeLeft = 30;
+  game.timeLeft = 60;
   game.currentPlayer = getCurrentPlayer();
   game.currentQuestion = getRandomItem();
   game.message = "";
