@@ -9,7 +9,9 @@ body {
   color: #08234a;
 }
 
-button, input, select {
+button,
+input,
+select {
   font-family: inherit;
 }
 
@@ -23,14 +25,15 @@ button {
   padding: 24px;
 }
 
-.card, .game-card {
+.card,
+.game-card {
   max-width: 1050px;
   margin: auto;
   background: white;
   border: 3px solid #0b5ed7;
   border-radius: 28px;
   padding: 26px;
-  box-shadow: 0 20px 60px rgba(11, 94, 215, .18);
+  box-shadow: 0 20px 60px rgba(11, 94, 215, 0.18);
 }
 
 .title {
@@ -47,7 +50,7 @@ button {
 }
 
 .mustache {
-  font-size: 48px;
+  font-size: 42px;
   text-align: center;
   margin: 10px 0;
 }
@@ -71,7 +74,8 @@ label {
   font-weight: bold;
 }
 
-input, select {
+input,
+select {
   width: 100%;
   padding: 14px;
   border-radius: 14px;
@@ -123,12 +127,18 @@ input, select {
   background: white;
   border: 3px solid #0b5ed7;
   border-radius: 24px;
-  padding: 18px;
+  padding: 14px;
   text-align: center;
 }
 
-.flag {
-  font-size: 62px;
+.team-panel h2 {
+  margin: 8px 0 4px;
+  font-size: 22px;
+}
+
+.team-panel h3 {
+  margin: 4px 0;
+  font-size: 24px;
 }
 
 .score {
@@ -215,9 +225,51 @@ input, select {
   font-weight: 900;
 }
 
-@media(max-width:800px) {
-  .grid, .scoreboard, .options, .action-buttons {
+/* ESCUDOS */
+
+.team-logo {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+}
+
+.turn-logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin: 10px 0;
+}
+
+.setup-logo-wrap {
+  text-align: center;
+  margin: 12px 0;
+}
+
+.setup-logo {
+  width: 95px;
+  height: 95px;
+  object-fit: contain;
+  display: inline-block;
+}
+
+.winner-logo {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+}
+
+/* CELULAR */
+
+@media (max-width: 800px) {
+  .grid,
+  .scoreboard,
+  .options,
+  .action-buttons {
     grid-template-columns: 1fr;
+  }
+
+  .screen {
+    padding: 14px;
   }
 
   .title {
@@ -226,5 +278,18 @@ input, select {
 
   .question {
     font-size: 26px;
+  }
+
+  .turn {
+    font-size: 26px;
+  }
+
+  .score {
+    font-size: 36px;
+  }
+
+  .setup-logo {
+    width: 80px;
+    height: 80px;
   }
 }
