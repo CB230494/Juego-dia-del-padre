@@ -1,29 +1,23 @@
 const app = document.getElementById("app");
 
 const teamsCatalog = [
-  { name: "Holanda", flag: "🇳🇱" },
-  { name: "Brasil", flag: "🇧🇷" },
-  { name: "Argentina", flag: "🇦🇷" },
-  { name: "España", flag: "🇪🇸" },
-  { name: "Francia", flag: "🇫🇷" },
-  { name: "Alemania", flag: "🇩🇪" },
-  { name: "Portugal", flag: "🇵🇹" },
-  { name: "México", flag: "🇲🇽" },
-  { name: "Costa Rica", flag: "🇨🇷" },
-  { name: "Colombia", flag: "🇨🇴" },
-  { name: "Uruguay", flag: "🇺🇾" },
-  { name: "Japón", flag: "🇯🇵" },
-  { name: "Canadá", flag: "🇨🇦" },
-  { name: "Estados Unidos", flag: "🇺🇸" },
-  { name: "Panamá", flag: "🇵🇦" }
+  { name: "Holanda", img: "Holanda.png" },
+  { name: "México", img: "Mexico.png" },
+  { name: "Argentina", img: "Argentina.png" },
+  { name: "Francia", img: "Francia.png" },
+  { name: "Cabo Verde", img: "Cabo Verde.png" },
+  { name: "España", img: "España.png" },
+  { name: "Panamá", img: "Panama.png" },
+  { name: "Japón", img: "Japon.png" },
+  { name: "Corea", img: "Korea.png" }
 ];
 
 let usedQuestions = [];
 let timerInterval = null;
 
 let game = {
-  teamA: { name: "Holanda", flag: "🇳🇱", players: [], goals: 0 },
-  teamB: { name: "Brasil", flag: "🇧🇷", players: [], goals: 0 },
+  teamA: { name: "Holanda", img: "Holanda.png", players: [], goals: 0 },
+  teamB: { name: "México", img: "Mexico.png", players: [], goals: 0 },
   turnTeam: "A",
   playerIndexA: 0,
   playerIndexB: 0,
@@ -68,11 +62,8 @@ const gameItems = [
   { category: "Biblia 📖", type: "options", q: "¿Quién interpretó el sueño del faraón en Egipto?", options: ["Moisés", "José", "Daniel", "Samuel"], answer: 1 },
   { category: "Biblia 📖", type: "options", q: "¿Qué profeta desafió a los profetas de Baal en el monte Carmelo?", options: ["Elías", "Eliseo", "Isaías", "Jeremías"], answer: 0 },
   { category: "Biblia 📖", type: "options", q: "¿Quién fue el padre de Juan el Bautista?", options: ["Zacarías", "José", "Simeón", "Nicodemo"], answer: 0 },
-  { category: "Biblia 📖", type: "options", q: "¿En qué ciudad nació Jesús?", options: ["Nazaret", "Belén", "Jerusalén", "Capernaúm"], answer: 1 },
   { category: "Biblia 📖", type: "options", q: "¿Quién pidió sabiduría a Dios en lugar de riquezas?", options: ["David", "Salomón", "Saúl", "Josué"], answer: 1 },
   { category: "Biblia 📖", type: "options", q: "¿Qué discípulo dudó de la resurrección hasta ver las heridas de Jesús?", options: ["Pedro", "Tomás", "Andrés", "Felipe"], answer: 1 },
-  { category: "Biblia 📖", type: "options", q: "¿Quién fue echado al foso de los leones?", options: ["Daniel", "David", "José", "Jonás"], answer: 0 },
-  { category: "Biblia 📖", type: "options", q: "¿Cuál fue el primer milagro de Jesús según el Evangelio de Juan?", options: ["Sanar a un ciego", "Caminar sobre el agua", "Convertir agua en vino", "Multiplicar panes"], answer: 2 },
 
   { category: "Reto físico 💪", type: "challenge", q: "Haz 5 lagartijas. Si las completas, es gol.", note: "La familia valida si cumplió el reto." },
   { category: "Reto físico 💪", type: "challenge", q: "Haz 10 sentadillas. Si las completas, es gol.", note: "La familia valida si cumplió el reto." },
@@ -98,10 +89,14 @@ function renderSetup() {
             <select id="teamAName">
               ${teamsCatalog.map((t, i) => `
                 <option value="${i}" ${t.name === "Holanda" ? "selected" : ""}>
-                  ${t.flag} ${t.name}
+                  ${t.name}
                 </option>
               `).join("")}
             </select>
+
+            <div class="setup-logo-wrap">
+              <img id="previewA" class="setup-logo" src="Holanda.png" alt="Holanda">
+            </div>
 
             <label>Nombre del papá</label>
             <input id="playerAName" placeholder="Ejemplo: Carlos" />
@@ -115,11 +110,15 @@ function renderSetup() {
             <label>Equipo</label>
             <select id="teamBName">
               ${teamsCatalog.map((t, i) => `
-                <option value="${i}" ${t.name === "Brasil" ? "selected" : ""}>
-                  ${t.flag} ${t.name}
+                <option value="${i}" ${t.name === "México" ? "selected" : ""}>
+                  ${t.name}
                 </option>
               `).join("")}
             </select>
+
+            <div class="setup-logo-wrap">
+              <img id="previewB" class="setup-logo" src="Mexico.png" alt="México">
+            </div>
 
             <label>Nombre del papá</label>
             <input id="playerBName" placeholder="Ejemplo: Roberto" />
@@ -141,7 +140,22 @@ function renderSetup() {
     </div>
   `;
 
+  document.getElementById("teamAName").addEventListener("change", updatePreviews);
+  document.getElementById("teamBName").addEventListener("change", updatePreviews);
+
   updateLists();
+  updatePreviews();
+}
+
+function updatePreviews() {
+  const a = teamsCatalog[Number(document.getElementById("teamAName").value)];
+  const b = teamsCatalog[Number(document.getElementById("teamBName").value)];
+
+  document.getElementById("previewA").src = a.img;
+  document.getElementById("previewA").alt = a.name;
+
+  document.getElementById("previewB").src = b.img;
+  document.getElementById("previewB").alt = b.name;
 }
 
 function addPlayer(team) {
@@ -172,10 +186,10 @@ function startGame() {
   const teamBData = teamsCatalog[Number(document.getElementById("teamBName").value)];
 
   game.teamA.name = teamAData.name;
-  game.teamA.flag = teamAData.flag;
+  game.teamA.img = teamAData.img;
 
   game.teamB.name = teamBData.name;
-  game.teamB.flag = teamBData.flag;
+  game.teamB.img = teamBData.img;
 
   game.maxRounds = Number(document.getElementById("maxRounds").value);
 
@@ -280,7 +294,9 @@ function renderGame() {
         </div>
 
         <div class="turn">
-          Turno de ${activeTeam.flag} ${activeTeam.name}<br>
+          Turno de ${activeTeam.name}<br>
+          <img src="${activeTeam.img}" class="turn-logo" alt="${activeTeam.name}">
+          <br>
           ${game.currentPlayer.name}
         </div>
 
@@ -301,7 +317,7 @@ function renderGame() {
 function renderTeamPanel(team) {
   return `
     <div class="team-panel">
-      <div class="flag">${team.flag}</div>
+      <img src="${team.img}" class="team-logo" alt="${team.name}">
       <h2>${team.name}</h2>
       <h3>⚽ ${team.goals}</h3>
     </div>
@@ -340,7 +356,7 @@ function answer(isCorrect, timeOut = false) {
 
   if (isCorrect) {
     activeTeam.goals++;
-    game.message = `⚽ ¡GOOOOOOL para ${activeTeam.flag} ${activeTeam.name}!`;
+    game.message = `⚽ ¡GOOOOOOL para ${activeTeam.name}!`;
   } else {
     game.message = timeOut ? "⏰ Se acabó el tiempo. No hay gol." : "❌ Falló. No hay gol.";
   }
@@ -358,16 +374,16 @@ function renderFinal() {
   clearTimer();
 
   let winner = "Empate";
-  let flag = "🤝";
+  let winnerImg = null;
 
   if (game.teamA.goals > game.teamB.goals) {
     winner = `${game.teamA.name} gana`;
-    flag = game.teamA.flag;
+    winnerImg = game.teamA.img;
   }
 
   if (game.teamB.goals > game.teamA.goals) {
     winner = `${game.teamB.name} gana`;
-    flag = game.teamB.flag;
+    winnerImg = game.teamB.img;
   }
 
   app.innerHTML = `
@@ -376,7 +392,9 @@ function renderFinal() {
         <div class="mustache">〰️ 👨🏻‍🦱 🏆 👨🏽‍🦱 〰️</div>
         <div class="final-title">FINAL DEL JUEGO</div>
 
-        <div style="text-align:center;font-size:100px;">${flag}</div>
+        <div style="text-align:center;">
+          ${winnerImg ? `<img src="${winnerImg}" class="winner-logo" alt="${winner}">` : "🤝"}
+        </div>
 
         <h1 style="text-align:center;">${winner}</h1>
 
