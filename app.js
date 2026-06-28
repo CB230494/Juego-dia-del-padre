@@ -19,6 +19,7 @@ const teamsCatalog = [
 ];
 
 let usedQuestions = [];
+let timerInterval = null;
 
 let game = {
   teamA: { name: "Holanda", flag: "🇳🇱", players: [], goals: 0 },
@@ -30,211 +31,59 @@ let game = {
   currentQuestion: null,
   round: 1,
   maxRounds: 20,
-  message: ""
+  message: "",
+  timeLeft: 30,
+  locked: false
 };
 
 const gameItems = [
-  {
-    category: "Esposa ❤️",
-    type: "judge",
-    q: "¿Cuál es la comida favorita de tu esposa?",
-    note: "Tu esposa confirma si está correcto."
-  },
-  {
-    category: "Esposa ❤️",
-    type: "judge",
-    q: "¿Cuál es el postre favorito de tu esposa?",
-    note: "Tu esposa confirma si está correcto."
-  },
-  {
-    category: "Esposa ❤️",
-    type: "judge",
-    q: "¿Cuál es el color favorito de tu esposa?",
-    note: "Tu esposa confirma si está correcto."
-  },
-  {
-    category: "Esposa ❤️",
-    type: "judge",
-    q: "¿Qué regalo le gustaría recibir a tu esposa?",
-    note: "Tu esposa confirma si está correcto."
-  },
-  {
-    category: "Esposa ❤️",
-    type: "judge",
-    q: "¿Cuál es la bebida favorita de tu esposa?",
-    note: "Tu esposa confirma si está correcto."
-  },
-  {
-    category: "Hijos 👧👦",
-    type: "judge",
-    q: "¿Qué quiere ser tu hijo o hija cuando sea grande?",
-    note: "Tus hijos confirman si está correcto."
-  },
-  {
-    category: "Hijos 👧👦",
-    type: "judge",
-    q: "¿Cuál es la comida favorita de tu hijo o hija?",
-    note: "Tus hijos confirman si está correcto."
-  },
-  {
-    category: "Hijos 👧👦",
-    type: "judge",
-    q: "¿Cuál es el animal favorito de tu hijo o hija?",
-    note: "Tus hijos confirman si está correcto."
-  },
-  {
-    category: "Hijos 👧👦",
-    type: "judge",
-    q: "¿Cuál es la materia favorita de tu hijo o hija?",
-    note: "Tus hijos confirman si está correcto."
-  },
-  {
-    category: "Hijos 👧👦",
-    type: "judge",
-    q: "¿Qué le da miedo a tu hijo o hija?",
-    note: "Tus hijos confirman si está correcto."
-  },
-  {
-    category: "Familia 👨‍👩‍👧‍👦",
-    type: "judge",
-    q: "¿Cuál fue el paseo familiar que más recuerda tu familia?",
-    note: "La familia confirma si está correcto."
-  },
-  {
-    category: "Familia 👨‍👩‍👧‍👦",
-    type: "judge",
-    q: "¿Cuál comida disfrutan más comer juntos en familia?",
-    note: "La familia confirma si está correcto."
-  },
+  { category: "Esposa ❤️", type: "judge", q: "¿Cuál es la comida favorita de tu esposa?", note: "Tu esposa confirma si está correcto." },
+  { category: "Esposa ❤️", type: "judge", q: "¿Cuál es el postre favorito de tu esposa?", note: "Tu esposa confirma si está correcto." },
+  { category: "Esposa ❤️", type: "judge", q: "¿Cuál es el color favorito de tu esposa?", note: "Tu esposa confirma si está correcto." },
+  { category: "Esposa ❤️", type: "judge", q: "¿Qué regalo le gustaría recibir a tu esposa?", note: "Tu esposa confirma si está correcto." },
+  { category: "Esposa ❤️", type: "judge", q: "¿Cuál es la bebida favorita de tu esposa?", note: "Tu esposa confirma si está correcto." },
 
-  {
-    category: "Vehículos 🚗",
-    type: "options",
-    q: "¿Qué marca fabrica el Corolla?",
-    options: ["Nissan", "Toyota", "Mazda", "Kia"],
-    answer: 1
-  },
-  {
-    category: "Vehículos 🚗",
-    type: "options",
-    q: "¿Qué marca fabrica el Civic?",
-    options: ["Honda", "Toyota", "Ford", "Hyundai"],
-    answer: 0
-  },
-  {
-    category: "Vehículos 🚗",
-    type: "options",
-    q: "¿Qué marca fabrica el Mustang?",
-    options: ["Chevrolet", "Dodge", "Ford", "BMW"],
-    answer: 2
-  },
-  {
-    category: "Vehículos 🚗",
-    type: "options",
-    q: "¿Qué marca fabrica el Hilux?",
-    options: ["Ford", "Toyota", "Chevrolet", "Nissan"],
-    answer: 1
-  },
+  { category: "Hijos 👧👦", type: "judge", q: "¿Qué quiere ser tu hijo o hija cuando sea grande?", note: "Tus hijos confirman si está correcto." },
+  { category: "Hijos 👧👦", type: "judge", q: "¿Cuál es la comida favorita de tu hijo o hija?", note: "Tus hijos confirman si está correcto." },
+  { category: "Hijos 👧👦", type: "judge", q: "¿Cuál es el animal favorito de tu hijo o hija?", note: "Tus hijos confirman si está correcto." },
+  { category: "Hijos 👧👦", type: "judge", q: "¿Cuál es la materia favorita de tu hijo o hija?", note: "Tus hijos confirman si está correcto." },
+  { category: "Hijos 👧👦", type: "judge", q: "¿Qué le da miedo a tu hijo o hija?", note: "Tus hijos confirman si está correcto." },
 
-  {
-    category: "Herramientas 🔧",
-    type: "options",
-    q: "¿Qué herramienta se usa para clavar?",
-    options: ["Martillo", "Alicate", "Taladro", "Nivel"],
-    answer: 0
-  },
-  {
-    category: "Herramientas 🔧",
-    type: "options",
-    q: "¿Qué herramienta mide distancias?",
-    options: ["Serrucho", "Cinta métrica", "Llave inglesa", "Escuadra"],
-    answer: 1
-  },
-  {
-    category: "Herramientas 🔧",
-    type: "options",
-    q: "¿Qué herramienta sirve para hacer agujeros?",
-    options: ["Taladro", "Llave inglesa", "Cinta métrica", "Nivel"],
-    answer: 0
-  },
+  { category: "Familia 👨‍👩‍👧‍👦", type: "judge", q: "¿Cuál fue el paseo familiar que más recuerda tu familia?", note: "La familia confirma si está correcto." },
+  { category: "Familia 👨‍👩‍👧‍👦", type: "judge", q: "¿Cuál comida disfrutan más comer juntos en familia?", note: "La familia confirma si está correcto." },
 
-  {
-    category: "Fútbol ⚽",
-    type: "options",
-    q: "¿Cuántos jugadores tiene un equipo en cancha?",
-    options: ["9", "10", "11", "12"],
-    answer: 2
-  },
-  {
-    category: "Fútbol ⚽",
-    type: "options",
-    q: "¿Qué tarjeta expulsa a un jugador?",
-    options: ["Amarilla", "Roja", "Azul", "Verde"],
-    answer: 1
-  },
-  {
-    category: "Fútbol ⚽",
-    type: "options",
-    q: "¿Qué país ganó el Mundial 2022?",
-    options: ["Francia", "Brasil", "Argentina", "Croacia"],
-    answer: 2
-  },
+  { category: "Vehículos 🚗", type: "options", q: "¿Qué marca fabrica el Corolla?", options: ["Nissan", "Toyota", "Mazda", "Kia"], answer: 1 },
+  { category: "Vehículos 🚗", type: "options", q: "¿Qué marca fabrica el Civic?", options: ["Honda", "Toyota", "Ford", "Hyundai"], answer: 0 },
+  { category: "Vehículos 🚗", type: "options", q: "¿Qué marca fabrica el Mustang?", options: ["Chevrolet", "Dodge", "Ford", "BMW"], answer: 2 },
+  { category: "Vehículos 🚗", type: "options", q: "¿Qué marca fabrica el Hilux?", options: ["Ford", "Toyota", "Chevrolet", "Nissan"], answer: 1 },
 
-  {
-    category: "Biblia 📖",
-    type: "options",
-    q: "¿Quién construyó el arca?",
-    options: ["Moisés", "Noé", "Abraham", "David"],
-    answer: 1
-  },
-  {
-    category: "Biblia 📖",
-    type: "options",
-    q: "¿Quién venció a Goliat?",
-    options: ["David", "Sansón", "Josué", "Daniel"],
-    answer: 0
-  },
-  {
-    category: "Biblia 📖",
-    type: "options",
-    q: "¿Dónde nació Jesús?",
-    options: ["Nazaret", "Jerusalén", "Belén", "Galilea"],
-    answer: 2
-  },
+  { category: "Herramientas 🔧", type: "options", q: "¿Qué herramienta se usa para clavar?", options: ["Martillo", "Alicate", "Taladro", "Nivel"], answer: 0 },
+  { category: "Herramientas 🔧", type: "options", q: "¿Qué herramienta mide distancias?", options: ["Serrucho", "Cinta métrica", "Llave inglesa", "Escuadra"], answer: 1 },
+  { category: "Herramientas 🔧", type: "options", q: "¿Qué herramienta sirve para hacer agujeros?", options: ["Taladro", "Llave inglesa", "Cinta métrica", "Nivel"], answer: 0 },
 
-  {
-    category: "Reto físico 💪",
-    type: "challenge",
-    q: "Haz 5 lagartijas. Si las completas, es gol.",
-    note: "La familia valida si cumplió el reto."
-  },
-  {
-    category: "Reto físico 💪",
-    type: "challenge",
-    q: "Haz 10 sentadillas. Si las completas, es gol.",
-    note: "La familia valida si cumplió el reto."
-  },
-  {
-    category: "Reto rápido 🏃",
-    type: "challenge",
-    q: "Consigue un arete de tu esposa y tráelo en menos de 30 segundos.",
-    note: "Si lo consigue, es gol."
-  },
-  {
-    category: "Reto rápido 🏃",
-    type: "challenge",
-    q: "Consigue una llave de la casa o del carro en menos de 30 segundos.",
-    note: "Si la consigue, es gol."
-  },
-  {
-    category: "Reto familiar 😂",
-    type: "challenge",
-    q: "Imita una frase típica de papá. Si la familia se ríe, es gol.",
-    note: "La familia decide si fue gol."
-  }
+  { category: "Fútbol ⚽", type: "options", q: "¿Cuántos jugadores tiene un equipo en cancha?", options: ["9", "10", "11", "12"], answer: 2 },
+  { category: "Fútbol ⚽", type: "options", q: "¿Qué tarjeta expulsa a un jugador?", options: ["Amarilla", "Roja", "Azul", "Verde"], answer: 1 },
+  { category: "Fútbol ⚽", type: "options", q: "¿Qué país ganó el Mundial 2022?", options: ["Francia", "Brasil", "Argentina", "Croacia"], answer: 2 },
+
+  { category: "Biblia 📖", type: "options", q: "¿Quién interpretó el sueño del faraón en Egipto?", options: ["Moisés", "José", "Daniel", "Samuel"], answer: 1 },
+  { category: "Biblia 📖", type: "options", q: "¿Qué profeta desafió a los profetas de Baal en el monte Carmelo?", options: ["Elías", "Eliseo", "Isaías", "Jeremías"], answer: 0 },
+  { category: "Biblia 📖", type: "options", q: "¿Quién fue el padre de Juan el Bautista?", options: ["Zacarías", "José", "Simeón", "Nicodemo"], answer: 0 },
+  { category: "Biblia 📖", type: "options", q: "¿En qué ciudad nació Jesús?", options: ["Nazaret", "Belén", "Jerusalén", "Capernaúm"], answer: 1 },
+  { category: "Biblia 📖", type: "options", q: "¿Quién pidió sabiduría a Dios en lugar de riquezas?", options: ["David", "Salomón", "Saúl", "Josué"], answer: 1 },
+  { category: "Biblia 📖", type: "options", q: "¿Qué discípulo dudó de la resurrección hasta ver las heridas de Jesús?", options: ["Pedro", "Tomás", "Andrés", "Felipe"], answer: 1 },
+  { category: "Biblia 📖", type: "options", q: "¿Quién fue echado al foso de los leones?", options: ["Daniel", "David", "José", "Jonás"], answer: 0 },
+  { category: "Biblia 📖", type: "options", q: "¿Cuál fue el primer milagro de Jesús según el Evangelio de Juan?", options: ["Sanar a un ciego", "Caminar sobre el agua", "Convertir agua en vino", "Multiplicar panes"], answer: 2 },
+
+  { category: "Reto físico 💪", type: "challenge", q: "Haz 5 lagartijas. Si las completas, es gol.", note: "La familia valida si cumplió el reto." },
+  { category: "Reto físico 💪", type: "challenge", q: "Haz 10 sentadillas. Si las completas, es gol.", note: "La familia valida si cumplió el reto." },
+  { category: "Reto rápido 🏃", type: "challenge", q: "Consigue un arete de tu esposa en menos de 30 segundos.", note: "Si lo consigue, es gol." },
+  { category: "Reto rápido 🏃", type: "challenge", q: "Consigue una llave de la casa o del carro en menos de 30 segundos.", note: "Si la consigue, es gol." },
+  { category: "Reto familiar 😂", type: "challenge", q: "Imita una frase típica de papá. Si la familia se ríe, es gol.", note: "La familia decide si fue gol." }
 ];
 
 function renderSetup() {
+  clearTimer();
+
   app.innerHTML = `
     <div class="screen">
       <div class="card">
@@ -370,15 +219,46 @@ function getRandomItem() {
 }
 
 function nextTurn() {
+  clearTimer();
+
   if (game.round > game.maxRounds) {
     renderFinal();
     return;
   }
 
+  game.locked = false;
+  game.timeLeft = 30;
   game.currentPlayer = getCurrentPlayer();
   game.currentQuestion = getRandomItem();
   game.message = "";
+
   renderGame();
+  startTimer();
+}
+
+function startTimer() {
+  clearTimer();
+
+  timerInterval = setInterval(() => {
+    if (game.locked) return;
+
+    game.timeLeft--;
+
+    const timerBox = document.getElementById("timerBox");
+    if (timerBox) timerBox.textContent = `⏱️ ${game.timeLeft}`;
+
+    if (game.timeLeft <= 0) {
+      clearTimer();
+      answer(false, true);
+    }
+  }, 1000);
+}
+
+function clearTimer() {
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
 }
 
 function renderGame() {
@@ -394,6 +274,10 @@ function renderGame() {
 
       <div class="game-card">
         <div class="mustache">〰️ 👨🏻‍🦱 FELIZ DÍA DEL PADRE 👨🏽‍🦱 〰️</div>
+
+        <div id="timerBox" style="font-size:42px;font-weight:900;color:#0b5ed7;margin-bottom:15px;">
+          ⏱️ ${game.timeLeft}
+        </div>
 
         <div class="turn">
           Turno de ${activeTeam.flag} ${activeTeam.name}<br>
@@ -446,14 +330,19 @@ function renderControls() {
   `;
 }
 
-function answer(isCorrect) {
+function answer(isCorrect, timeOut = false) {
+  if (game.locked) return;
+
+  game.locked = true;
+  clearTimer();
+
   const activeTeam = getTeam(game.turnTeam);
 
   if (isCorrect) {
     activeTeam.goals++;
     game.message = `⚽ ¡GOOOOOOL para ${activeTeam.flag} ${activeTeam.name}!`;
   } else {
-    game.message = "❌ Falló. No hay gol.";
+    game.message = timeOut ? "⏰ Se acabó el tiempo. No hay gol." : "❌ Falló. No hay gol.";
   }
 
   renderGame();
@@ -462,10 +351,12 @@ function answer(isCorrect) {
     game.turnTeam = game.turnTeam === "A" ? "B" : "A";
     game.round++;
     nextTurn();
-  }, 1000);
+  }, 1200);
 }
 
 function renderFinal() {
+  clearTimer();
+
   let winner = "Empate";
   let flag = "🤝";
 
